@@ -1,0 +1,102 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-27T17:50:59.355Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 5,
+    "implemented": 4,
+    "items": [
+      {
+        "id": "REQ-13",
+        "summary": "Update all game cards in the backend and Games page so that each game has a real, working external game URL. The 'Play Now' button on each GameCard must open the game's URL in a new browser tab (target='_blank'). Pre-populate the backend with real sports game entries (Cricket, Football, Basketball, Tennis) that include valid game URLs pointing to popular free online sports games (e.g., cricketgames.io, miniclip.com football games, etc.).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/GameCard.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/GameCard.tsx"
+        ]
+      },
+      {
+        "id": "REQ-14",
+        "summary": "Add a sport category filter bar to the Games page (/games). Display filter buttons for All, Cricket, Football, Basketball, and Tennis. Clicking a category button filters the displayed game cards to only show games of that category. The active filter button should be visually highlighted using the existing gold/red brand colors.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/GamesPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/GamesPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Make the Leaderboard page fully live and interactive. Ensure the score submission form is prominently visible, functional, and allows any user (authenticated or guest) to submit a score with a username, score value, and sport category. The leaderboard table must auto-refresh after a score is submitted to show the latest rankings. Add a 'Refresh' button to manually reload the leaderboard.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/LeaderboardPage.tsx",
+          "frontend/src/components/ScoreSubmissionForm.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/LeaderboardPage.tsx",
+          "frontend/src/components/ScoreSubmissionForm.tsx"
+        ]
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Polish the overall UI to feel like a real, professional online gaming platform. Apply the following enhancements: (1) Add animated hover effects on game cards (scale up, glow border in gold/red); (2) Add a 'Featured Games' horizontal scroll section on the Home page showcasing 4–6 highlighted games fetched from the backend; (3) Add a live 'Top Player' badge or ticker on the Home page showing the current leaderboard #1 player; (4) Add smooth page transition animations between routes; (5) Add a loading progress bar at the top of the page while data is being fetched.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/GameCard.tsx",
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/index.css"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/GameCard.tsx",
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/index.css"
+        ]
+      },
+      {
+        "id": "REQ-17",
+        "summary": "Update the backend game data model to include a gameUrl field (Text) for each game entry. Update the addGame and all related backend functions to accept and store this field. Ensure getGames returns the gameUrl in the response so the frontend can use it for the Play Now button.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/basketball-thumb.dim_400x250.png",
+    "frontend/public/assets/generated/cricket-thumb.dim_400x250.png",
+    "frontend/public/assets/generated/featured-games-banner.dim_1200x300.png",
+    "frontend/public/assets/generated/football-thumb.dim_400x250.png",
+    "frontend/public/assets/generated/tennis-thumb.dim_400x250.png",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/GameCard.tsx",
+    "frontend/src/components/ScoreSubmissionForm.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/index.css",
+    "frontend/src/pages/GamesPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/LeaderboardPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

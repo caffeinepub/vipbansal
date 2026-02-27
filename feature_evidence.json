@@ -1,0 +1,89 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-all-game-cards-in-the-backend-and-games-page-so-that-each-game-has-a-real-working-external-game-url-the-play-now-button-on-each-gamecard-must-open-the-game-s-url-in-a-new-browser-tab-target-blank-pre-populate-the-backend-with-real-sports-game-entries-cricket-football-basketball-tennis-that-include-valid-game-urls-pointing-to-popular-free-online-sports-games-e-g-cricketgames-io-miniclip-com-football-games-etc",
+      "featureTitle": "Update all game cards in the backend and Games page so that each game has a real, working external game URL. The 'Play Now' button on each GameCard must open the game's URL in a new browser tab (target='_blank'). Pre-populate the backend with real sports game entries (Cricket, Football, Basketball, Tennis) that include valid game URLs pointing to popular free online sports games (e.g., cricketgames.io, miniclip.com football games, etc.).",
+      "files": [
+        "frontend/src/components/GameCard.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-sport-category-filter-bar-to-the-games-page-games-display-filter-buttons-for-all-cricket-football-basketball-and-tennis-clicking-a-category-button-filters-the-displayed-game-cards-to-only-show-games-of-that-category-the-active-filter-button-should-be-visually-highlighted-using-the-existing-gold-red-brand-colors",
+      "featureTitle": "Add a sport category filter bar to the Games page (/games). Display filter buttons for All, Cricket, Football, Basketball, and Tennis. Clicking a category button filters the displayed game cards to only show games of that category. The active filter button should be visually highlighted using the existing gold/red brand colors.",
+      "files": [
+        "frontend/src/pages/GamesPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-14"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-the-leaderboard-page-fully-live-and-interactive-ensure-the-score-submission-form-is-prominently-visible-functional-and-allows-any-user-authenticated-or-guest-to-submit-a-score-with-a-username-score-value-and-sport-category-the-leaderboard-table-must-auto-refresh-after-a-score-is-submitted-to-show-the-latest-rankings-add-a-refresh-button-to-manually-reload-the-leaderboard",
+      "featureTitle": "Make the Leaderboard page fully live and interactive. Ensure the score submission form is prominently visible, functional, and allows any user (authenticated or guest) to submit a score with a username, score value, and sport category. The leaderboard table must auto-refresh after a score is submitted to show the latest rankings. Add a 'Refresh' button to manually reload the leaderboard.",
+      "files": [
+        "frontend/src/components/ScoreSubmissionForm.tsx",
+        "frontend/src/pages/LeaderboardPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-polish-the-overall-ui-to-feel-like-a-real-professional-online-gaming-platform-apply-the-following-enhancements-1-add-animated-hover-effects-on-game-cards-scale-up-glow-border-in-gold-red-2-add-a-featured-games-horizontal-scroll-section-on-the-home-page-showcasing-4-6-highlighted-games-fetched-from-the-backend-3-add-a-live-top-player-badge-or-ticker-on-the-home-page-showing-the-current-leaderboard-1-player-4-add-smooth-page-transition-animations-between-routes-5-add-a-loading-progress-bar-at-the-top-of-the-page-while-data-is-being-fetched",
+      "featureTitle": "Polish the overall UI to feel like a real, professional online gaming platform. Apply the following enhancements: (1) Add animated hover effects on game cards (scale up, glow border in gold/red); (2) Add a 'Featured Games' horizontal scroll section on the Home page showcasing 4–6 highlighted games fetched from the backend; (3) Add a live 'Top Player' badge or ticker on the Home page showing the current leaderboard #1 player; (4) Add smooth page transition animations between routes; (5) Add a loading progress bar at the top of the page while data is being fetched.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/GameCard.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-16"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

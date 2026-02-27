@@ -1,0 +1,127 @@
+{
+  "kind": "build_request",
+  "title": "Activate Full Online Gaming Experience — Real Game URLs, Category Filters, Live Leaderboard & Polished UI",
+  "projectName": "VIPbansal Sports Gaming",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-13",
+      "text": "Update all game cards in the backend and Games page so that each game has a real, working external game URL. The 'Play Now' button on each GameCard must open the game's URL in a new browser tab (target='_blank'). Pre-populate the backend with real sports game entries (Cricket, Football, Basketball, Tennis) that include valid game URLs pointing to popular free online sports games (e.g., cricketgames.io, miniclip.com football games, etc.).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each game card displays a working 'Play Now' button",
+        "Clicking 'Play Now' opens the game URL in a new browser tab",
+        "Backend game entries include a gameUrl field populated with real, accessible online game URLs",
+        "At least 2 games per sport category (Cricket, Football, Basketball, Tennis) are seeded in the backend"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Add a sport category filter bar to the Games page (/games). Display filter buttons for All, Cricket, Football, Basketball, and Tennis. Clicking a category button filters the displayed game cards to only show games of that category. The active filter button should be visually highlighted using the existing gold/red brand colors.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A row of filter buttons appears above the games grid: All, Cricket, Football, Basketball, Tennis",
+        "Clicking a category filters the game cards to show only that sport",
+        "Clicking 'All' shows all games",
+        "The active filter button is visually distinguished with gold/red highlight",
+        "Filter works reactively without a page reload"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Make the Leaderboard page fully live and interactive. Ensure the score submission form is prominently visible, functional, and allows any user (authenticated or guest) to submit a score with a username, score value, and sport category. The leaderboard table must auto-refresh after a score is submitted to show the latest rankings. Add a 'Refresh' button to manually reload the leaderboard.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Score submission form is visible on the Leaderboard page",
+        "Submitting a score updates the leaderboard table immediately after success",
+        "A 'Refresh' button allows manual reload of the leaderboard data",
+        "Top 10 players are shown with rank, username, sport category, and score",
+        "Success and error messages are shown after form submission"
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Polish the overall UI to feel like a real, professional online gaming platform. Apply the following enhancements: (1) Add animated hover effects on game cards (scale up, glow border in gold/red); (2) Add a 'Featured Games' horizontal scroll section on the Home page showcasing 4–6 highlighted games fetched from the backend; (3) Add a live 'Top Player' badge or ticker on the Home page showing the current leaderboard #1 player; (4) Add smooth page transition animations between routes; (5) Add a loading progress bar at the top of the page while data is being fetched.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Game cards animate on hover (scale + glow effect)",
+        "Home page has a 'Featured Games' horizontal scroll section with real game data",
+        "Home page shows a 'Top Player' banner or ticker with the current #1 leaderboard entry",
+        "Route transitions have a smooth fade or slide animation",
+        "A thin top progress bar appears during data loading states"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "text": "Update the backend game data model to include a gameUrl field (Text) for each game entry. Update the addGame and all related backend functions to accept and store this field. Ensure getGames returns the gameUrl in the response so the frontend can use it for the Play Now button.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Game data type includes a gameUrl : Text field",
+        "addGame endpoint accepts gameUrl as a parameter",
+        "getGames returns gameUrl for each game",
+        "Existing games without a URL are given a default placeholder URL rather than breaking"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
+    "All external game URLs must open in a new tab (target='_blank' with rel='noopener noreferrer')",
+    "Maintain the existing dark red/gold/black brand theme throughout all UI changes"
+  ],
+  "nonGoals": [
+    "Building or embedding actual game engines or game logic inside the app",
+    "Android APK or native mobile app development",
+    "Integrating third-party payment or real-money gaming features",
+    "Adding new authentication methods beyond Internet Identity"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Cricket sports game card thumbnail with dark stadium background and cricket ball (cricket-thumb.dim_400x250.png)",
+      "Football sports game card thumbnail with green field and football (football-thumb.dim_400x250.png)",
+      "Basketball sports game card thumbnail with court background and basketball (basketball-thumb.dim_400x250.png)",
+      "Tennis sports game card thumbnail with clay court background and tennis ball (tennis-thumb.dim_400x250.png)",
+      "Wide hero banner for Featured Games section with dark gaming aesthetic, gold accents, and multiple sport icons (featured-games-banner.dim_1200x300.png)"
+    ],
+    "edits": []
+  }
+}

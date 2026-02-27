@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 9,
+  "summary": "VIPbansal branded website for Android Sports Games, featuring game listings, scoreboard, and attractive UI with VIPbansal branding.",
+  "architectural_notes": [
+    "Website for VIPbansal brand focused on Android sports games",
+    "Admin role required: a designated principal/address should have admin privileges to manage users, passwords, and platform controls."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Cricket sports game card thumbnail with dark stadium background and cricket ball (cricket-thumb.dim_400x250.png)\n- Football sports game card thumbnail with green field and football (football-thumb.dim_400x250.png)\n- Basketball sports game card thumbnail with court background and basketball (basketball-thumb.dim_400x250.png)\n- Tennis sports game card thumbnail with clay court background and tennis ball (tennis-thumb.dim_400x250.png)\n- Wide hero banner for Featured Games section with dark gaming aesthetic, gold accents, and multiple sport icons (featured-games-banner.dim_1200x300.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-visually-bold-sports-gaming-homepage-with-vipbansal-branding-featuring-a-hero-banner-with-the-brand-name-a-tagline-and-featured-sports-game-highlights-apply-a-dark-energetic-theme-with-vibrant-accent-colors-red-gold-black-inspired-by-premium-sports-and-gaming-aesthetics-use-bold-typography-and-dynamic-layout-consistently-across-all-pages",
+      "title": "Create a visually bold sports gaming homepage with VIPbansal branding, featuring a hero banner with the brand name, a tagline, and featured sports game highlights. Apply a dark, energetic theme with vibrant accent colors (red/gold/black) inspired by premium sports and gaming aesthetics. Use bold typography and dynamic layout consistently across all pages.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-an-android-sports-games-listing-page-showing-game-cards-each-card-displays-the-game-name-sport-category-e-g-cricket-football-basketball-tennis-a-thumbnail-image-a-short-description-and-a-play-now-button-games-data-should-be-stored-in-the-backend-and-fetched-on-the-frontend",
+      "title": "Build an Android Sports Games listing page showing game cards. Each card displays the game name, sport category (e.g., Cricket, Football, Basketball, Tennis), a thumbnail image, a short description, and a 'Play Now' button. Games data should be stored in the backend and fetched on the frontend.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-leaderboard-scoreboard-section-that-displays-top-players-with-their-username-score-rank-and-sport-category-the-backend-should-store-player-score-entries-and-expose-endpoints-to-add-a-score-and-retrieve-the-top-scores-sorted-by-highest-score",
+      "title": "Implement a Leaderboard/Scoreboard section that displays top players with their username, score, rank, and sport category. The backend should store player score entries and expose endpoints to add a score and retrieve the top scores sorted by highest score.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-persistent-navigation-bar-with-the-vipbansal-logo-brand-name-links-to-home-games-and-leaderboard-sections-and-a-mobile-friendly-hamburger-menu-for-smaller-screens",
+      "title": "Add a persistent navigation bar with the VIPbansal logo/brand name, links to Home, Games, and Leaderboard sections, and a mobile-friendly hamburger menu for smaller screens.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-sign-up-page-at-route-signup-where-users-can-register-by-providing-a-username-and-email-on-submission-call-the-backend-registeruser-endpoint-using-the-authenticated-internet-identity-principal-display-success-confirmation-and-redirect-to-the-home-page-after-registration",
+      "title": "Create a Sign Up page at route /signup where users can register by providing a username and email. On submission, call the backend registerUser endpoint using the authenticated Internet Identity principal. Display success confirmation and redirect to the home page after registration.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-login-page-at-route-login-that-triggers-internet-identity-authentication-via-the-existing-useinternetidentity-hook-after-successful-login-redirect-the-user-to-their-previous-page-or-the-home-page-display-the-authenticated-user-s-username-in-the-navbar-when-logged-in-and-replace-the-login-link-with-a-logout-button",
+      "title": "Create a Login page at route /login that triggers Internet Identity authentication via the existing useInternetIdentity hook. After successful login, redirect the user to their previous page or the home page. Display the authenticated user's username in the Navbar when logged in, and replace the login link with a logout button.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-password-reset-page-at-route-reset-password-since-authentication-is-handled-by-internet-identity-which-does-not-use-passwords-this-page-should-clearly-explain-that-account-security-is-managed-by-internet-identity-and-guide-users-to-the-internet-identity-portal-https-identity-ic0-app-to-manage-their-devices-and-recovery-methods-provide-a-clear-cta-button-linking-to-the-internet-identity-portal",
+      "title": "Create a Password Reset page at route /reset-password. Since authentication is handled by Internet Identity (which does not use passwords), this page should clearly explain that account security is managed by Internet Identity and guide users to the Internet Identity portal (https://identity.ic0.app) to manage their devices and recovery methods. Provide a clear CTA button linking to the Internet Identity portal.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-navbar-and-app-router-to-include-navigation-links-for-login-and-sign-up-when-the-user-is-unauthenticated-and-show-the-username-with-a-logout-button-when-authenticated-add-routes-for-login-signup-and-reset-password-to-the-tanstack-router-configuration-in-app-tsx",
+      "title": "Update the Navbar and App router to include navigation links for Login and Sign Up when the user is unauthenticated, and show the username with a Logout button when authenticated. Add routes for /login, /signup, and /reset-password to the TanStack Router configuration in App.tsx.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-protected-admin-panel-page-at-route-admin-in-the-frontend-the-page-is-only-accessible-when-the-authenticated-internet-identity-principal-matches-the-admin-principal-returned-by-the-backend-isadmin-check-if-the-user-is-not-the-admin-show-an-access-denied-message-the-admin-panel-must-include-1-a-users-tab-listing-all-registered-users-username-email-principal-with-options-to-edit-profile-fields-or-delete-a-user-2-a-scores-tab-listing-all-leaderboard-entries-with-the-ability-to-delete-individual-score-records-3-clear-success-error-feedback-for-all-admin-actions",
+      "title": "Create a protected Admin Panel page at route /admin in the frontend. The page is only accessible when the authenticated Internet Identity principal matches the admin principal returned by the backend isAdmin check. If the user is not the admin, show an 'Access Denied' message. The admin panel must include: (1) a Users tab listing all registered users (username, email, principal) with options to edit profile fields or delete a user; (2) a Scores tab listing all leaderboard entries with the ability to delete individual score records; (3) clear success/error feedback for all admin actions.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-link-to-the-admin-panel-admin-in-the-navbar-that-is-only-visible-when-the-authenticated-user-is-the-admin-as-determined-by-the-isadmin-backend-call-the-link-should-appear-alongside-the-existing-authenticated-navigation-controls",
+      "title": "Add a link to the Admin Panel (/admin) in the Navbar that is only visible when the authenticated user is the admin (as determined by the isAdmin backend call). The link should appear alongside the existing authenticated navigation controls.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-game-cards-in-the-backend-and-games-page-so-that-each-game-has-a-real-working-external-game-url-the-play-now-button-on-each-gamecard-must-open-the-game-s-url-in-a-new-browser-tab-target-blank-pre-populate-the-backend-with-real-sports-game-entries-cricket-football-basketball-tennis-that-include-valid-game-urls-pointing-to-popular-free-online-sports-games-e-g-cricketgames-io-miniclip-com-football-games-etc",
+      "title": "Update all game cards in the backend and Games page so that each game has a real, working external game URL. The 'Play Now' button on each GameCard must open the game's URL in a new browser tab (target='_blank'). Pre-populate the backend with real sports game entries (Cricket, Football, Basketball, Tennis) that include valid game URLs pointing to popular free online sports games (e.g., cricketgames.io, miniclip.com football games, etc.).",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-sport-category-filter-bar-to-the-games-page-games-display-filter-buttons-for-all-cricket-football-basketball-and-tennis-clicking-a-category-button-filters-the-displayed-game-cards-to-only-show-games-of-that-category-the-active-filter-button-should-be-visually-highlighted-using-the-existing-gold-red-brand-colors",
+      "title": "Add a sport category filter bar to the Games page (/games). Display filter buttons for All, Cricket, Football, Basketball, and Tennis. Clicking a category button filters the displayed game cards to only show games of that category. The active filter button should be visually highlighted using the existing gold/red brand colors.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-leaderboard-page-fully-live-and-interactive-ensure-the-score-submission-form-is-prominently-visible-functional-and-allows-any-user-authenticated-or-guest-to-submit-a-score-with-a-username-score-value-and-sport-category-the-leaderboard-table-must-auto-refresh-after-a-score-is-submitted-to-show-the-latest-rankings-add-a-refresh-button-to-manually-reload-the-leaderboard",
+      "title": "Make the Leaderboard page fully live and interactive. Ensure the score submission form is prominently visible, functional, and allows any user (authenticated or guest) to submit a score with a username, score value, and sport category. The leaderboard table must auto-refresh after a score is submitted to show the latest rankings. Add a 'Refresh' button to manually reload the leaderboard.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-polish-the-overall-ui-to-feel-like-a-real-professional-online-gaming-platform-apply-the-following-enhancements-1-add-animated-hover-effects-on-game-cards-scale-up-glow-border-in-gold-red-2-add-a-featured-games-horizontal-scroll-section-on-the-home-page-showcasing-4-6-highlighted-games-fetched-from-the-backend-3-add-a-live-top-player-badge-or-ticker-on-the-home-page-showing-the-current-leaderboard-1-player-4-add-smooth-page-transition-animations-between-routes-5-add-a-loading-progress-bar-at-the-top-of-the-page-while-data-is-being-fetched",
+      "title": "Polish the overall UI to feel like a real, professional online gaming platform. Apply the following enhancements: (1) Add animated hover effects on game cards (scale up, glow border in gold/red); (2) Add a 'Featured Games' horizontal scroll section on the Home page showcasing 4–6 highlighted games fetched from the backend; (3) Add a live 'Top Player' badge or ticker on the Home page showing the current leaderboard #1 player; (4) Add smooth page transition animations between routes; (5) Add a loading progress bar at the top of the page while data is being fetched.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Game listings page for Android sports games",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Scoreboard/leaderboard section",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "VIPbansal branding and attractive UI design",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Sign up, login, and password reset pages for user authentication",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add a user profile/account system to the backend that stores registered user records (principal ID, username, email) and supports retrieving a user profile by principal. Expose endpoints: registerUser (username, email), getMyProfile, and updateProfile.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Add an admin panel/role system where an admin (identified by a specific address/principal) can access all user data, manage passwords, and control the platform with elevated privileges.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Add an admin role system to the backend. Define a hardcoded admin principal (configured as a stable variable). Expose the following admin-only endpoints: (1) getAllUsers — returns all registered user profiles; (2) deleteUser(principal) — removes a user profile by principal; (3) updateUserProfile(principal, username, email) — allows admin to edit any user's profile; (4) resetUserData(principal) — clears score entries associated with a user; (5) isAdmin — returns true if the caller is the admin principal. All admin endpoints must reject non-admin callers with an #unauthorized error.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Activate and enhance all existing settings/features to make the website feel like a real online gaming platform — fully functional games listing, working Play Now buttons linking to real game URLs, category filters, leaderboard fully active, and overall polished real-world experience.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Update the backend game data model to include a gameUrl field (Text) for each game entry. Update the addGame and all related backend functions to accept and store this field. Ensure getGames returns the gameUrl in the response so the frontend can use it for the Play Now button.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "VIPbansal",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

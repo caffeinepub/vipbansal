@@ -1,0 +1,57 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-27T17:50:59.351Z",
+  "summary": "The diff implements the majority of the requested requirements (REQ-13 through REQ-17). REQ-17 backend changes are present (gameUrl field, migration, addGame), REQ-14 category filter bar is implemented, REQ-15 leaderboard with refresh button and score submission form is implemented, REQ-16 UI polish (hover effects, featured games, top player ticker, page transitions, loading progress bar) is implemented. However, several specific acceptance criteria have gaps: the backend seeding of at least 2 games per sport category is not evidenced in the diff, and the migration only sets gameUrl to empty string rather than a meaningful default placeholder URL.",
+  "missing_requirements": [
+    {
+      "id": "REQ-13",
+      "requirement": "Pre-populate the backend with at least 2 real sports game entries per category (Cricket, Football, Basketball, Tennis) with valid, real game URLs pointing to popular free online sports games.",
+      "reason": "The diff shows the backend model updated with gameUrl and migration logic, but no seeding or initialization code populating at least 2 games per sport category with real URLs is visible in the truncated backend/main.mo or any other file.",
+      "evidence": [
+        "backend/main.mo",
+        "backend/migration.mo"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "requirement": "Existing games without a URL are given a default placeholder URL rather than breaking.",
+      "reason": "The migration sets gameUrl to an empty string for existing games rather than a meaningful default placeholder URL as described in the acceptance criteria.",
+      "evidence": [
+        "backend/migration.mo"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Admin page with admin-specific hooks (useIsCallerAdmin, useGetAllUsers, useUpdateUserProfile, useDeleteUser, useResetUserData) and admin navigation link in Navbar",
+      "reason": "The build request does not mention any admin page, admin hooks, or admin navigation link. These appear to be additional features not requested in REQ-13 through REQ-17.",
+      "evidence": [
+        "frontend-file-summaries.txt",
+        "frontend/src/components/Navbar.tsx"
+      ]
+    },
+    {
+      "description": "AccessDeniedScreen component with animated ping effect",
+      "reason": "No requirement in the build request mentions an access denied screen component.",
+      "evidence": [
+        "frontend-file-summaries.txt",
+        "frontend/src/components/AccessDeniedScreen.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/components/GameCard.tsx",
+    "frontend/src/components/ScoreSubmissionForm.tsx",
+    "frontend/src/index.css",
+    "frontend/src/pages/GamesPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/LeaderboardPage.tsx",
+    "project_state.json"
+  ]
+}
