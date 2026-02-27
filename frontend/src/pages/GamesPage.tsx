@@ -13,6 +13,9 @@ const filterOptions: { label: string; value: FilterCategory; emoji: string }[] =
     { label: 'Football', value: SportCategory.Football, emoji: '⚽' },
     { label: 'Basketball', value: SportCategory.Basketball, emoji: '🏀' },
     { label: 'Tennis', value: SportCategory.Tennis, emoji: '🎾' },
+    { label: 'Racing', value: SportCategory.Racing, emoji: '🏎️' },
+    { label: 'Badminton', value: SportCategory.Badminton, emoji: '🏸' },
+    { label: 'Shooting', value: SportCategory.Shooting, emoji: '🎯' },
 ];
 
 function GameCardSkeleton() {

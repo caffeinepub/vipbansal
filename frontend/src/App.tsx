@@ -9,6 +9,10 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 import AdminPage from './pages/AdminPage';
+import OTPLoginPage from './pages/OTPLoginPage';
+import R2SGamePage from './pages/R2SGamePage';
+import MiniCricketPage from './pages/MiniCricketPage';
+import TermsPage from './pages/TermsPage';
 
 // Top loading progress bar
 function TopProgressBar() {
@@ -131,6 +135,30 @@ const adminRoute = createRoute({
     component: AdminPage,
 });
 
+const otpLoginRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/otp-login',
+    component: OTPLoginPage,
+});
+
+const r2sGameRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/r2s-game',
+    component: R2SGamePage,
+});
+
+const miniCricketRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/mini-cricket',
+    component: MiniCricketPage,
+});
+
+const termsRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/terms',
+    component: TermsPage,
+});
+
 const routeTree = rootRoute.addChildren([
     indexRoute,
     gamesRoute,
@@ -139,6 +167,10 @@ const routeTree = rootRoute.addChildren([
     signupRoute,
     passwordResetRoute,
     adminRoute,
+    otpLoginRoute,
+    r2sGameRoute,
+    miniCricketRoute,
+    termsRoute,
 ]);
 
 const router = createRouter({ routeTree });

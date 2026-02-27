@@ -2,28 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-all-game-cards-in-the-backend-and-games-page-so-that-each-game-has-a-real-working-external-game-url-the-play-now-button-on-each-gamecard-must-open-the-game-s-url-in-a-new-browser-tab-target-blank-pre-populate-the-backend-with-real-sports-game-entries-cricket-football-basketball-tennis-that-include-valid-game-urls-pointing-to-popular-free-online-sports-games-e-g-cricketgames-io-miniclip-com-football-games-etc",
-      "featureTitle": "Update all game cards in the backend and Games page so that each game has a real, working external game URL. The 'Play Now' button on each GameCard must open the game's URL in a new browser tab (target='_blank'). Pre-populate the backend with real sports game entries (Cricket, Football, Basketball, Tennis) that include valid game URLs pointing to popular free online sports games (e.g., cricketgames.io, miniclip.com football games, etc.).",
-      "files": [
-        "frontend/src/components/GameCard.tsx"
-      ],
-      "components": [
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "authorization@4.0.0"
-      ],
-      "testIds": [
-        "REQ-13"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-a-sport-category-filter-bar-to-the-games-page-games-display-filter-buttons-for-all-cricket-football-basketball-and-tennis-clicking-a-category-button-filters-the-displayed-game-cards-to-only-show-games-of-that-category-the-active-filter-button-should-be-visually-highlighted-using-the-existing-gold-red-brand-colors",
-      "featureTitle": "Add a sport category filter bar to the Games page (/games). Display filter buttons for All, Cricket, Football, Basketball, and Tennis. Clicking a category button filters the displayed game cards to only show games of that category. The active filter button should be visually highlighted using the existing gold/red brand colors.",
+      "featureId": "feature-update-the-games-page-games-category-filter-bar-to-include-filter-buttons-for-racing-badminton-and-shooting-alongside-the-existing-all-cricket-football-basketball-and-tennis-filters-game-cards-for-these-new-categories-must-render-correctly-using-the-existing-gamecard-component",
+      "featureTitle": "Update the Games page (/games) category filter bar to include filter buttons for Racing, Badminton, and Shooting alongside the existing All, Cricket, Football, Basketball, and Tennis filters. Game cards for these new categories must render correctly using the existing GameCard component.",
       "files": [
         "frontend/src/pages/GamesPage.tsx"
       ],
@@ -37,38 +17,14 @@
         "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-14"
+        "REQ-40"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-make-the-leaderboard-page-fully-live-and-interactive-ensure-the-score-submission-form-is-prominently-visible-functional-and-allows-any-user-authenticated-or-guest-to-submit-a-score-with-a-username-score-value-and-sport-category-the-leaderboard-table-must-auto-refresh-after-a-score-is-submitted-to-show-the-latest-rankings-add-a-refresh-button-to-manually-reload-the-leaderboard",
-      "featureTitle": "Make the Leaderboard page fully live and interactive. Ensure the score submission form is prominently visible, functional, and allows any user (authenticated or guest) to submit a score with a username, score value, and sport category. The leaderboard table must auto-refresh after a score is submitted to show the latest rankings. Add a 'Refresh' button to manually reload the leaderboard.",
+      "featureId": "feature-update-the-homepage-hero-about-section-in-frontend-src-pages-homepage-tsx-to-include-the-r2s-sports-champion-pro-app-description-the-section-must-highlight-six-sports-cricket-football-basketball-racing-badminton-shooting-each-with-their-emoji-smooth-controls-realistic-physics-offline-online-play-unlock-achievements-and-rewards-and-compete-with-friends-global-leaderboard-use-the-existing-dark-red-gold-vipbansal-theme-and-bold-typography",
+      "featureTitle": "Update the homepage hero/about section in frontend/src/pages/HomePage.tsx to include the R2S Sports Champion Pro app description. The section must highlight: six sports (Cricket, Football, Basketball, Racing, Badminton, Shooting) each with their emoji, smooth controls & realistic physics, offline & online play, unlock achievements and rewards, and compete with friends & global leaderboard. Use the existing dark red/gold VIPbansal theme and bold typography.",
       "files": [
-        "frontend/src/components/ScoreSubmissionForm.tsx",
-        "frontend/src/pages/LeaderboardPage.tsx"
-      ],
-      "components": [
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "authorization@4.0.0"
-      ],
-      "testIds": [
-        "REQ-15"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-polish-the-overall-ui-to-feel-like-a-real-professional-online-gaming-platform-apply-the-following-enhancements-1-add-animated-hover-effects-on-game-cards-scale-up-glow-border-in-gold-red-2-add-a-featured-games-horizontal-scroll-section-on-the-home-page-showcasing-4-6-highlighted-games-fetched-from-the-backend-3-add-a-live-top-player-badge-or-ticker-on-the-home-page-showing-the-current-leaderboard-1-player-4-add-smooth-page-transition-animations-between-routes-5-add-a-loading-progress-bar-at-the-top-of-the-page-while-data-is-being-fetched",
-      "featureTitle": "Polish the overall UI to feel like a real, professional online gaming platform. Apply the following enhancements: (1) Add animated hover effects on game cards (scale up, glow border in gold/red); (2) Add a 'Featured Games' horizontal scroll section on the Home page showcasing 4–6 highlighted games fetched from the backend; (3) Add a live 'Top Player' badge or ticker on the Home page showing the current leaderboard #1 player; (4) Add smooth page transition animations between routes; (5) Add a loading progress bar at the top of the page while data is being fetched.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/GameCard.tsx",
-        "frontend/src/index.css",
         "frontend/src/pages/HomePage.tsx"
       ],
       "components": [
@@ -81,7 +37,48 @@
         "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-16"
+        "REQ-41"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-terms-conditions-page-at-route-terms-in-the-react-frontend-the-page-must-display-t-c-content-relevant-to-r2s-sports-champion-pro-structured-with-sections-covering-1-acceptance-of-terms-2-use-of-the-app-permitted-and-prohibited-uses-3-user-accounts-and-registration-4-in-app-coins-and-rewards-virtual-currency-no-real-monetary-value-unless-stated-5-leaderboard-and-fair-play-6-intellectual-property-7-disclaimer-of-warranties-8-limitation-of-liability-9-changes-to-terms-10-contact-us-email-mjkjbansal-gmail-com-11-last-updated-2026-footer-note-style-the-page-consistently-with-the-existing-dark-red-gold-vipbansal-theme-dark-background-gold-red-section-headings-bold-typography-tailwind-utility-classes",
+      "featureTitle": "Create a Terms & Conditions page at route /terms in the React frontend. The page must display T&C content relevant to R2S Sports Champion Pro, structured with sections covering: (1) Acceptance of Terms; (2) Use of the App (permitted and prohibited uses); (3) User Accounts and Registration; (4) In-App Coins and Rewards (virtual currency, no real monetary value unless stated); (5) Leaderboard and Fair Play; (6) Intellectual Property; (7) Disclaimer of Warranties; (8) Limitation of Liability; (9) Changes to Terms; (10) Contact Us (email: mjkjbansal@gmail.com); (11) 'Last Updated: 2026' footer note. Style the page consistently with the existing dark red/gold VIPbansal theme (dark background, gold/red section headings, bold typography, Tailwind utility classes).",
+      "files": [
+        "frontend/src/pages/TermsPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-42"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-terms-conditions-link-to-the-footer-component-frontend-src-components-footer-tsx-that-navigates-to-the-terms-route-placed-alongside-the-existing-privacy-policy-link-register-the-terms-route-in-the-tanstack-router-configuration-in-frontend-src-app-tsx",
+      "featureTitle": "Add a 'Terms & Conditions' link to the Footer component (frontend/src/components/Footer.tsx) that navigates to the /terms route, placed alongside the existing Privacy Policy link. Register the /terms route in the TanStack Router configuration in frontend/src/App.tsx.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Footer.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-43"
       ],
       "confidence": "high"
     }

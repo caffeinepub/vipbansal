@@ -1,464 +1,504 @@
-import { useState } from 'react';
-import { Shield, Users, Trophy, Pencil, Trash2, RotateCcw, Check, X, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Shield, Users, Trophy, Loader2, Pencil, Trash2, Check, X, Banknote } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import {
-    useIsCallerAdmin,
-    useGetAllUsers,
-    useGetTopScores,
-    useUpdateUserProfile,
-    useDeleteUser,
-    useResetUserData,
-} from '../hooks/useQueries';
 import AccessDeniedScreen from '../components/AccessDeniedScreen';
-import { type UserProfile, type PlayerScore } from '../backend';
-import { Principal } from '@dfinity/principal';
-import { toast } from 'sonner';
+import {
+  useIsCallerAdmin,
+  useGetAllUsers,
+  useGetTopScores,
+  useUpdateUserProfile,
+  useGetAllWithdrawRequests,
+  useApproveWithdrawRequest,
+  useDeleteWithdrawRequest,
+} from '../hooks/useQueries';
+import { useInternetIdentity } from '../hooks/useInternetIdentity';
+import type { UserProfile } from '../backend';
+import { Variant_pending_approved } from '../backend';
 
-const sportEmoji: Record<string, string> = {
-    Cricket: '🏏',
-    Football: '⚽',
-    Basketball: '🏀',
-    Tennis: '🎾',
-};
-
-// ---- Inline Edit Row for Users ----
-function UserRow({ user, onDeleted }: { user: UserProfile; onDeleted?: () => void }) {
-    const [editing, setEditing] = useState(false);
-    const [editUsername, setEditUsername] = useState(user.username);
-    const [editEmail, setEditEmail] = useState(user.email);
-
-    const updateMutation = useUpdateUserProfile();
-    const deleteMutation = useDeleteUser();
-    const resetMutation = useResetUserData();
-
-    const handleSave = async () => {
-        if (!editUsername.trim() || !editEmail.trim()) {
-            toast.error('Username and email cannot be empty.');
-            return;
-        }
-        try {
-            await updateMutation.mutateAsync({
-                user: user.principal as unknown as Principal,
-                newUsername: editUsername.trim(),
-                newEmail: editEmail.trim(),
-            });
-            toast.success(`User "${editUsername}" updated successfully.`);
-            setEditing(false);
-        } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : 'Failed to update user.';
-            toast.error(msg);
-        }
-    };
-
-    const handleCancel = () => {
-        setEditUsername(user.username);
-        setEditEmail(user.email);
-        setEditing(false);
-    };
-
-    const handleDelete = async () => {
-        try {
-            await deleteMutation.mutateAsync(user.principal as unknown as Principal);
-            toast.success(`User "${user.username}" deleted.`);
-            onDeleted?.();
-        } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : 'Failed to delete user.';
-            toast.error(msg);
-        }
-    };
-
-    const handleReset = async () => {
-        try {
-            await resetMutation.mutateAsync(user.principal as unknown as Principal);
-            toast.success(`Score data for "${user.username}" has been reset.`);
-        } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : 'Failed to reset user data.';
-            toast.error(msg);
-        }
-    };
-
-    const isBusy = updateMutation.isPending || deleteMutation.isPending || resetMutation.isPending;
-
-    return (
-        <TableRow className="border-gold/10 hover:bg-gold/5 transition-colors">
-            <TableCell className="font-mono text-xs text-foreground/40 max-w-[120px] truncate">
-                {user.principal.toString().slice(0, 12)}…
-            </TableCell>
-            <TableCell>
-                {editing ? (
-                    <Input
-                        value={editUsername}
-                        onChange={(e) => setEditUsername(e.target.value)}
-                        className="h-8 text-sm bg-brand-surface border-gold/30 text-foreground"
-                        disabled={isBusy}
-                    />
-                ) : (
-                    <span className="font-heading font-semibold text-gold">{user.username}</span>
-                )}
-            </TableCell>
-            <TableCell>
-                {editing ? (
-                    <Input
-                        value={editEmail}
-                        onChange={(e) => setEditEmail(e.target.value)}
-                        className="h-8 text-sm bg-brand-surface border-gold/30 text-foreground"
-                        disabled={isBusy}
-                    />
-                ) : (
-                    <span className="text-sm text-foreground/70">{user.email}</span>
-                )}
-            </TableCell>
-            <TableCell className="text-right">
-                <div className="flex items-center justify-end gap-1">
-                    {editing ? (
-                        <>
-                            <Button
-                                size="icon"
-                                variant="ghost"
-                                className="h-8 w-8 text-green-400 hover:text-green-300 hover:bg-green-400/10"
-                                onClick={handleSave}
-                                disabled={isBusy}
-                            >
-                                {updateMutation.isPending ? (
-                                    <Loader2 size={14} className="animate-spin" />
-                                ) : (
-                                    <Check size={14} />
-                                )}
-                            </Button>
-                            <Button
-                                size="icon"
-                                variant="ghost"
-                                className="h-8 w-8 text-foreground/50 hover:text-foreground hover:bg-foreground/10"
-                                onClick={handleCancel}
-                                disabled={isBusy}
-                            >
-                                <X size={14} />
-                            </Button>
-                        </>
-                    ) : (
-                        <>
-                            <Button
-                                size="icon"
-                                variant="ghost"
-                                className="h-8 w-8 text-gold/70 hover:text-gold hover:bg-gold/10"
-                                onClick={() => setEditing(true)}
-                                disabled={isBusy}
-                                title="Edit user"
-                            >
-                                <Pencil size={14} />
-                            </Button>
-
-                            {/* Reset Scores */}
-                            <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                    <Button
-                                        size="icon"
-                                        variant="ghost"
-                                        className="h-8 w-8 text-foreground/50 hover:text-yellow-400 hover:bg-yellow-400/10"
-                                        disabled={isBusy}
-                                        title="Reset scores"
-                                    >
-                                        {resetMutation.isPending ? (
-                                            <Loader2 size={14} className="animate-spin" />
-                                        ) : (
-                                            <RotateCcw size={14} />
-                                        )}
-                                    </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent className="bg-brand-surface border-gold/20">
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle className="text-gold font-brand">Reset Score Data?</AlertDialogTitle>
-                                        <AlertDialogDescription className="text-foreground/60">
-                                            This will permanently delete all score records for{' '}
-                                            <strong className="text-foreground">{user.username}</strong>. This action cannot be undone.
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                        <AlertDialogCancel className="border-gold/20 text-foreground/70 hover:bg-gold/10">
-                                            Cancel
-                                        </AlertDialogCancel>
-                                        <AlertDialogAction
-                                            onClick={handleReset}
-                                            className="bg-yellow-600 hover:bg-yellow-500 text-white"
-                                        >
-                                            Reset Scores
-                                        </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
-
-                            {/* Delete User */}
-                            <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                    <Button
-                                        size="icon"
-                                        variant="ghost"
-                                        className="h-8 w-8 text-foreground/50 hover:text-brand-red hover:bg-brand-red/10"
-                                        disabled={isBusy}
-                                        title="Delete user"
-                                    >
-                                        {deleteMutation.isPending ? (
-                                            <Loader2 size={14} className="animate-spin" />
-                                        ) : (
-                                            <Trash2 size={14} />
-                                        )}
-                                    </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent className="bg-brand-surface border-gold/20">
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle className="text-brand-red font-brand">Delete User?</AlertDialogTitle>
-                                        <AlertDialogDescription className="text-foreground/60">
-                                            This will permanently delete the account for{' '}
-                                            <strong className="text-foreground">{user.username}</strong>. This action cannot be undone.
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                        <AlertDialogCancel className="border-gold/20 text-foreground/70 hover:bg-gold/10">
-                                            Cancel
-                                        </AlertDialogCancel>
-                                        <AlertDialogAction
-                                            onClick={handleDelete}
-                                            className="bg-brand-red hover:bg-brand-red/80 text-white"
-                                        >
-                                            Delete User
-                                        </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
-                        </>
-                    )}
-                </div>
-            </TableCell>
-        </TableRow>
-    );
+interface EditState {
+  userId: bigint;
+  name: string;
+  username: string;
+  email: string;
 }
 
-// ---- Score Row ----
-function ScoreRow({ score, index }: { score: PlayerScore; index: number }) {
-    const emoji = sportEmoji[score.category as unknown as string] ?? '🏅';
-
-    return (
-        <TableRow className="border-gold/10 hover:bg-gold/5 transition-colors">
-            <TableCell className="text-foreground/50 font-mono text-sm w-12">{index + 1}</TableCell>
-            <TableCell>
-                <span className="font-heading font-semibold text-gold">{score.username}</span>
-            </TableCell>
-            <TableCell>
-                <Badge variant="outline" className="border-gold/30 text-foreground/70 text-xs gap-1">
-                    {emoji} {score.category as unknown as string}
-                </Badge>
-            </TableCell>
-            <TableCell className="text-right font-mono font-bold text-gold">
-                {Number(score.score).toLocaleString()}
-            </TableCell>
-        </TableRow>
-    );
-}
-
-// ---- Main Admin Page ----
 export default function AdminPage() {
-    const { identity } = useInternetIdentity();
-    const isAuthenticated = !!identity;
+  const { identity } = useInternetIdentity();
+  const { data: isAdmin, isLoading: adminLoading } = useIsCallerAdmin();
+  const { data: users, isLoading: usersLoading } = useGetAllUsers();
+  const { data: scores, isLoading: scoresLoading } = useGetTopScores();
+  const { data: withdrawRequests, isLoading: withdrawLoading } = useGetAllWithdrawRequests();
 
-    const { data: isAdmin, isLoading: adminLoading } = useIsCallerAdmin();
-    const { data: users, isLoading: usersLoading } = useGetAllUsers();
-    const { data: scores, isLoading: scoresLoading } = useGetTopScores();
+  const updateUserProfile = useUpdateUserProfile();
+  const approveWithdrawRequest = useApproveWithdrawRequest();
+  const deleteWithdrawRequest = useDeleteWithdrawRequest();
 
-    // Show loading while checking admin status
-    if (!isAuthenticated || adminLoading) {
-        return (
-            <div className="container mx-auto px-4 py-12 max-w-5xl">
-                <div className="flex flex-col gap-4">
-                    <Skeleton className="h-10 w-64 bg-brand-surface" />
-                    <Skeleton className="h-6 w-48 bg-brand-surface" />
-                    <Skeleton className="h-64 w-full bg-brand-surface" />
-                </div>
-            </div>
-        );
+  const [editState, setEditState] = useState<EditState | null>(null);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
+
+  const handleEditStart = (user: UserProfile) => {
+    setEditState({
+      userId: user.userId,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+    });
+  };
+
+  const handleEditSave = async () => {
+    if (!editState) return;
+    try {
+      await updateUserProfile.mutateAsync({
+        userId: editState.userId,
+        newName: editState.name,
+        newUsername: editState.username,
+        newEmail: editState.email,
+      });
+      showToast('User profile updated successfully!', 'success');
+      setEditState(null);
+    } catch (err: any) {
+      showToast(err?.message || 'Failed to update user profile', 'error');
     }
+  };
 
-    // Not admin → access denied
-    if (!isAdmin) {
-        return <AccessDeniedScreen />;
+  const handleApproveWithdraw = async (requestId: bigint) => {
+    try {
+      await approveWithdrawRequest.mutateAsync(requestId);
+      showToast(`Request #${requestId} approved successfully!`, 'success');
+    } catch (err: any) {
+      showToast(err?.message || 'Failed to approve request', 'error');
     }
+  };
 
+  const handleDeleteWithdraw = async (requestId: bigint) => {
+    try {
+      await deleteWithdrawRequest.mutateAsync(requestId);
+      showToast(`Request #${requestId} deleted successfully!`, 'success');
+    } catch (err: any) {
+      showToast(err?.message || 'Failed to delete request', 'error');
+    }
+  };
+
+  if (adminLoading) {
     return (
-        <main className="container mx-auto px-4 py-10 max-w-5xl">
-            {/* Header */}
-            <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
-                    <Shield size={24} className="text-gold" />
-                </div>
-                <div>
-                    <h1 className="font-brand text-3xl font-bold text-gold tracking-wider">Admin Panel</h1>
-                    <p className="text-foreground/50 font-body text-sm mt-0.5">
-                        Manage users, scores, and platform data
-                    </p>
-                </div>
-                <Badge className="ml-auto bg-gold/20 text-gold border border-gold/30 font-heading">
-                    Administrator
-                </Badge>
-            </div>
-
-            {/* Tabs */}
-            <Tabs defaultValue="users">
-                <TabsList className="bg-brand-surface border border-gold/20 mb-6">
-                    <TabsTrigger
-                        value="users"
-                        className="data-[state=active]:bg-gold/20 data-[state=active]:text-gold font-heading font-semibold gap-2"
-                    >
-                        <Users size={15} />
-                        Users
-                        {users && (
-                            <span className="ml-1 text-xs bg-gold/20 text-gold px-1.5 py-0.5 rounded-full">
-                                {users.length}
-                            </span>
-                        )}
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="scores"
-                        className="data-[state=active]:bg-gold/20 data-[state=active]:text-gold font-heading font-semibold gap-2"
-                    >
-                        <Trophy size={15} />
-                        Scores
-                        {scores && (
-                            <span className="ml-1 text-xs bg-gold/20 text-gold px-1.5 py-0.5 rounded-full">
-                                {scores.length}
-                            </span>
-                        )}
-                    </TabsTrigger>
-                </TabsList>
-
-                {/* Users Tab */}
-                <TabsContent value="users">
-                    <div className="rounded-xl border border-gold/20 bg-brand-surface overflow-hidden">
-                        <div className="px-6 py-4 border-b border-gold/10 flex items-center justify-between">
-                            <h2 className="font-heading font-bold text-foreground tracking-wide">
-                                Registered Users
-                            </h2>
-                            <span className="text-xs text-foreground/40 font-body">
-                                Click the pencil icon to edit inline
-                            </span>
-                        </div>
-
-                        {usersLoading ? (
-                            <div className="p-6 flex flex-col gap-3">
-                                {[...Array(4)].map((_, i) => (
-                                    <Skeleton key={i} className="h-10 w-full bg-background/50" />
-                                ))}
-                            </div>
-                        ) : !users || users.length === 0 ? (
-                            <div className="p-12 text-center text-foreground/40 font-body">
-                                <Users size={40} className="mx-auto mb-3 opacity-30" />
-                                <p>No registered users yet.</p>
-                            </div>
-                        ) : (
-                            <div className="overflow-x-auto">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="border-gold/10 hover:bg-transparent">
-                                            <TableHead className="text-foreground/50 font-heading text-xs uppercase tracking-wider w-32">
-                                                Principal
-                                            </TableHead>
-                                            <TableHead className="text-foreground/50 font-heading text-xs uppercase tracking-wider">
-                                                Username
-                                            </TableHead>
-                                            <TableHead className="text-foreground/50 font-heading text-xs uppercase tracking-wider">
-                                                Email
-                                            </TableHead>
-                                            <TableHead className="text-foreground/50 font-heading text-xs uppercase tracking-wider text-right">
-                                                Actions
-                                            </TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {users.map((user) => (
-                                            <UserRow
-                                                key={user.principal.toString()}
-                                                user={user}
-                                            />
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </div>
-                        )}
-                    </div>
-                </TabsContent>
-
-                {/* Scores Tab */}
-                <TabsContent value="scores">
-                    <div className="rounded-xl border border-gold/20 bg-brand-surface overflow-hidden">
-                        <div className="px-6 py-4 border-b border-gold/10 flex items-center justify-between">
-                            <h2 className="font-heading font-bold text-foreground tracking-wide">
-                                All Leaderboard Scores
-                            </h2>
-                            <span className="text-xs text-foreground/40 font-body">
-                                Sorted by highest score
-                            </span>
-                        </div>
-
-                        {scoresLoading ? (
-                            <div className="p-6 flex flex-col gap-3">
-                                {[...Array(5)].map((_, i) => (
-                                    <Skeleton key={i} className="h-10 w-full bg-background/50" />
-                                ))}
-                            </div>
-                        ) : !scores || scores.length === 0 ? (
-                            <div className="p-12 text-center text-foreground/40 font-body">
-                                <Trophy size={40} className="mx-auto mb-3 opacity-30" />
-                                <p>No scores recorded yet.</p>
-                            </div>
-                        ) : (
-                            <div className="overflow-x-auto">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="border-gold/10 hover:bg-transparent">
-                                            <TableHead className="text-foreground/50 font-heading text-xs uppercase tracking-wider w-12">
-                                                #
-                                            </TableHead>
-                                            <TableHead className="text-foreground/50 font-heading text-xs uppercase tracking-wider">
-                                                Player
-                                            </TableHead>
-                                            <TableHead className="text-foreground/50 font-heading text-xs uppercase tracking-wider">
-                                                Sport
-                                            </TableHead>
-                                            <TableHead className="text-foreground/50 font-heading text-xs uppercase tracking-wider text-right">
-                                                Score
-                                            </TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {scores.map((score, index) => (
-                                            <ScoreRow
-                                                key={`${score.username}-${index}`}
-                                                score={score}
-                                                index={index}
-                                            />
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </div>
-                        )}
-                    </div>
-                </TabsContent>
-            </Tabs>
-        </main>
+      <div className="min-h-screen bg-brand-dark flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-gold animate-spin" />
+      </div>
     );
+  }
+
+  if (!identity) {
+    return <AccessDeniedScreen />;
+  }
+
+  if (!isAdmin) {
+    return <AccessDeniedScreen />;
+  }
+
+  return (
+    <div className="min-h-screen bg-brand-dark text-white">
+      {/* Toast */}
+      {toast && (
+        <div
+          className={`fixed top-6 right-6 z-50 px-5 py-3 rounded-lg shadow-lg font-rajdhani font-semibold text-sm transition-all ${
+            toast.type === 'success'
+              ? 'bg-green-700 text-green-100 border border-green-500'
+              : 'bg-red-800 text-red-100 border border-red-500'
+          }`}
+        >
+          {toast.message}
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="bg-brand-surface border-b border-gold/20 px-6 py-5">
+        <div className="max-w-7xl mx-auto flex items-center gap-3">
+          <Shield className="w-7 h-7 text-gold" />
+          <div>
+            <h1 className="font-orbitron text-2xl font-bold text-gold">Admin Panel</h1>
+            <p className="text-white/50 text-sm font-rajdhani">VIPbansal Management Console</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <Tabs defaultValue="users">
+          <TabsList className="bg-brand-surface border border-gold/20 mb-6">
+            <TabsTrigger
+              value="users"
+              className="data-[state=active]:bg-gold data-[state=active]:text-brand-dark font-rajdhani font-semibold"
+            >
+              <Users className="w-4 h-4 mr-2" />
+              Users
+            </TabsTrigger>
+            <TabsTrigger
+              value="scores"
+              className="data-[state=active]:bg-gold data-[state=active]:text-brand-dark font-rajdhani font-semibold"
+            >
+              <Trophy className="w-4 h-4 mr-2" />
+              Scores
+            </TabsTrigger>
+            <TabsTrigger
+              value="withdrawals"
+              className="data-[state=active]:bg-gold data-[state=active]:text-brand-dark font-rajdhani font-semibold"
+            >
+              <Banknote className="w-4 h-4 mr-2" />
+              Withdraw Requests
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Users Tab */}
+          <TabsContent value="users">
+            <div className="bg-brand-surface rounded-xl border border-gold/20 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gold/10">
+                <h2 className="font-orbitron text-lg text-gold">Registered Users</h2>
+                <p className="text-white/40 text-sm font-rajdhani">{users?.length ?? 0} total users</p>
+              </div>
+              {usersLoading ? (
+                <div className="p-6 space-y-3">
+                  {[...Array(4)].map((_, i) => (
+                    <Skeleton key={i} className="h-12 w-full bg-white/5" />
+                  ))}
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-gold/10 hover:bg-transparent">
+                        <TableHead className="text-gold/70 font-rajdhani">User ID</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Name</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Username</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Email</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Role</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Coins (USDT)</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(users ?? []).map((user) => (
+                        <TableRow key={user.userId.toString()} className="border-gold/10 hover:bg-white/5">
+                          <TableCell className="text-white/60 font-mono text-xs">
+                            {user.userId.toString()}
+                          </TableCell>
+                          <TableCell>
+                            {editState?.userId === user.userId ? (
+                              <Input
+                                value={editState.name}
+                                onChange={(e) => setEditState({ ...editState, name: e.target.value })}
+                                className="bg-white/10 border-gold/30 text-white h-8 text-sm"
+                              />
+                            ) : (
+                              <span className="text-white font-rajdhani">{user.name}</span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {editState?.userId === user.userId ? (
+                              <Input
+                                value={editState.username}
+                                onChange={(e) =>
+                                  setEditState({ ...editState, username: e.target.value })
+                                }
+                                className="bg-white/10 border-gold/30 text-white h-8 text-sm"
+                              />
+                            ) : (
+                              <span className="text-white font-rajdhani">{user.username}</span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {editState?.userId === user.userId ? (
+                              <Input
+                                value={editState.email}
+                                onChange={(e) =>
+                                  setEditState({ ...editState, email: e.target.value })
+                                }
+                                className="bg-white/10 border-gold/30 text-white h-8 text-sm"
+                              />
+                            ) : (
+                              <span className="text-white/70 font-rajdhani text-sm">{user.email}</span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              className={
+                                (user.role as any) === 'admin'
+                                  ? 'bg-gold text-brand-dark font-bold'
+                                  : 'bg-white/10 text-white/70'
+                              }
+                            >
+                              {(user.role as any) === 'admin' ? 'Admin' : 'User'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-white/70 font-rajdhani">
+                            {user.balance.usdt.toFixed(2)}
+                          </TableCell>
+                          <TableCell>
+                            {editState?.userId === user.userId ? (
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  onClick={handleEditSave}
+                                  disabled={updateUserProfile.isPending}
+                                  className="bg-green-700 hover:bg-green-600 text-white h-7 px-2"
+                                >
+                                  {updateUserProfile.isPending ? (
+                                    <Loader2 className="w-3 h-3 animate-spin" />
+                                  ) : (
+                                    <Check className="w-3 h-3" />
+                                  )}
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => setEditState(null)}
+                                  className="text-white/50 hover:text-white h-7 px-2"
+                                >
+                                  <X className="w-3 h-3" />
+                                </Button>
+                              </div>
+                            ) : (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => handleEditStart(user)}
+                                className="text-gold/70 hover:text-gold h-7 px-2"
+                              >
+                                <Pencil className="w-3 h-3" />
+                              </Button>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {(users ?? []).length === 0 && (
+                        <TableRow>
+                          <TableCell
+                            colSpan={7}
+                            className="text-center text-white/40 py-8 font-rajdhani"
+                          >
+                            No users registered yet.
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
+          {/* Scores Tab */}
+          <TabsContent value="scores">
+            <div className="bg-brand-surface rounded-xl border border-gold/20 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gold/10">
+                <h2 className="font-orbitron text-lg text-gold">Player Scores</h2>
+                <p className="text-white/40 text-sm font-rajdhani">
+                  {scores?.length ?? 0} total score entries
+                </p>
+              </div>
+              {scoresLoading ? (
+                <div className="p-6 space-y-3">
+                  {[...Array(4)].map((_, i) => (
+                    <Skeleton key={i} className="h-12 w-full bg-white/5" />
+                  ))}
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-gold/10 hover:bg-transparent">
+                        <TableHead className="text-gold/70 font-rajdhani">Rank</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Username</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Category</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Score</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(scores ?? []).map((score, idx) => (
+                        <TableRow key={idx} className="border-gold/10 hover:bg-white/5">
+                          <TableCell className="text-white/60 font-mono">#{idx + 1}</TableCell>
+                          <TableCell className="text-white font-rajdhani">{score.username}</TableCell>
+                          <TableCell>
+                            <Badge
+                              variant="outline"
+                              className="border-gold/30 text-gold/80 font-rajdhani"
+                            >
+                              {score.category as unknown as string}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-gold font-orbitron font-bold">
+                            {Number(score.score).toLocaleString()}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {(scores ?? []).length === 0 && (
+                        <TableRow>
+                          <TableCell
+                            colSpan={4}
+                            className="text-center text-white/40 py-8 font-rajdhani"
+                          >
+                            No scores recorded yet.
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
+          {/* Withdraw Requests Tab */}
+          <TabsContent value="withdrawals">
+            <div className="bg-brand-surface rounded-xl border border-gold/20 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gold/10">
+                <h2 className="font-orbitron text-lg text-gold">Withdraw Requests</h2>
+                <p className="text-white/40 text-sm font-rajdhani">
+                  {withdrawRequests?.length ?? 0} total requests
+                </p>
+              </div>
+              {withdrawLoading ? (
+                <div className="p-6 space-y-3">
+                  {[...Array(4)].map((_, i) => (
+                    <Skeleton key={i} className="h-12 w-full bg-white/5" />
+                  ))}
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-gold/10 hover:bg-transparent">
+                        <TableHead className="text-gold/70 font-rajdhani">Request ID</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">User ID</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Amount</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">UPI ID</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Status</TableHead>
+                        <TableHead className="text-gold/70 font-rajdhani">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {(withdrawRequests ?? []).map((req) => (
+                        <TableRow key={req.requestId.toString()} className="border-gold/10 hover:bg-white/5">
+                          <TableCell className="text-white/60 font-mono text-xs">
+                            #{req.requestId.toString()}
+                          </TableCell>
+                          <TableCell className="text-white/60 font-mono text-xs">
+                            {req.userId.toString()}
+                          </TableCell>
+                          <TableCell className="text-gold font-rajdhani font-semibold">
+                            {req.amount}
+                          </TableCell>
+                          <TableCell className="text-white/70 font-rajdhani">{req.upiId}</TableCell>
+                          <TableCell>
+                            <Badge
+                              className={
+                                (req.status as any) === Variant_pending_approved.approved ||
+                                (req.status as any) === 'approved'
+                                  ? 'bg-green-700/80 text-green-100 border-green-600'
+                                  : 'bg-yellow-700/80 text-yellow-100 border-yellow-600'
+                              }
+                            >
+                              {(req.status as any) === Variant_pending_approved.approved ||
+                              (req.status as any) === 'approved'
+                                ? 'Approved'
+                                : 'Pending'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex gap-2">
+                              {((req.status as any) === Variant_pending_approved.pending ||
+                                (req.status as any) === 'pending') && (
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleApproveWithdraw(req.requestId)}
+                                  disabled={approveWithdrawRequest.isPending}
+                                  className="bg-green-700 hover:bg-green-600 text-white h-7 px-3 text-xs font-rajdhani"
+                                >
+                                  {approveWithdrawRequest.isPending ? (
+                                    <Loader2 className="w-3 h-3 animate-spin" />
+                                  ) : (
+                                    <>
+                                      <Check className="w-3 h-3 mr-1" />
+                                      Approve
+                                    </>
+                                  )}
+                                </Button>
+                              )}
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    className="text-red-400 hover:text-red-300 hover:bg-red-900/30 h-7 px-2"
+                                  >
+                                    <Trash2 className="w-3 h-3" />
+                                  </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent className="bg-brand-surface border-gold/20 text-white">
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle className="font-orbitron text-gold">
+                                      Delete Request?
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription className="text-white/60 font-rajdhani">
+                                      This will permanently delete withdraw request #
+                                      {req.requestId.toString()}. This action cannot be undone.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                                      Cancel
+                                    </AlertDialogCancel>
+                                    <AlertDialogAction
+                                      onClick={() => handleDeleteWithdraw(req.requestId)}
+                                      className="bg-red-700 hover:bg-red-600 text-white"
+                                    >
+                                      Delete
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {(withdrawRequests ?? []).length === 0 && (
+                        <TableRow>
+                          <TableCell
+                            colSpan={6}
+                            className="text-center text-white/40 py-8 font-rajdhani"
+                          >
+                            No withdraw requests found.
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
 }

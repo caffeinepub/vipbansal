@@ -22,8 +22,11 @@ export const _CaffeineStorageRefillResult = IDL.Record({
 export const SportCategory = IDL.Variant({
   'Basketball' : IDL.Null,
   'Tennis' : IDL.Null,
+  'Shooting' : IDL.Null,
   'Football' : IDL.Null,
   'Cricket' : IDL.Null,
+  'Badminton' : IDL.Null,
+  'Racing' : IDL.Null,
 });
 export const ExternalBlob = IDL.Vec(IDL.Nat8);
 export const UserRole = IDL.Variant({
@@ -39,10 +42,21 @@ export const Game = IDL.Record({
   'gameUrl' : IDL.Text,
   'category' : SportCategory,
 });
+export const Coins = IDL.Record({ 'irn' : IDL.Float64, 'usdt' : IDL.Float64 });
 export const UserProfile = IDL.Record({
-  'principal' : IDL.Principal,
   'username' : IDL.Text,
+  'balance' : Coins,
+  'userId' : IDL.Nat,
+  'name' : IDL.Text,
+  'role' : IDL.Variant({ 'admin' : IDL.Null, 'user' : IDL.Null }),
   'email' : IDL.Text,
+});
+export const WithdrawRequest = IDL.Record({
+  'status' : IDL.Variant({ 'pending' : IDL.Null, 'approved' : IDL.Null }),
+  'requestId' : IDL.Nat,
+  'userId' : IDL.Nat,
+  'upiId' : IDL.Text,
+  'amount' : IDL.Text,
 });
 export const PlayerScore = IDL.Record({
   'username' : IDL.Text,
@@ -84,27 +98,41 @@ export const idlService = IDL.Service({
       [],
     ),
   'addPlayerScore' : IDL.Func([IDL.Text, IDL.Nat, SportCategory], [], []),
+  'approveWithdrawRequest' : IDL.Func([IDL.Nat], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-  'deleteUser' : IDL.Func([IDL.Principal], [], []),
+  'deleteWithdrawRequest' : IDL.Func([IDL.Nat], [], []),
   'getAllGames' : IDL.Func([], [IDL.Vec(Game)], ['query']),
   'getAllUsers' : IDL.Func([], [IDL.Vec(UserProfile)], ['query']),
+  'getAllWithdrawRequests' : IDL.Func(
+      [],
+      [IDL.Vec(WithdrawRequest)],
+      ['query'],
+    ),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getGameById' : IDL.Func([IDL.Nat], [Game], ['query']),
-  'getMyProfile' : IDL.Func([], [UserProfile], ['query']),
+  'getMyProfile' : IDL.Func([IDL.Nat], [UserProfile], ['query']),
   'getTopScores' : IDL.Func([], [IDL.Vec(PlayerScore)], ['query']),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
       ['query'],
     ),
-  'isAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'isAdminCaller' : IDL.Func([], [IDL.Bool], ['query']),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
-  'registerUser' : IDL.Func([IDL.Text, IDL.Text], [], []),
-  'resetUserData' : IDL.Func([IDL.Principal], [], []),
+  'registerUser' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
-  'updateProfile' : IDL.Func([IDL.Text, IDL.Text], [], []),
-  'updateUserProfile' : IDL.Func([IDL.Principal, IDL.Text, IDL.Text], [], []),
+  'submitWithdrawRequest' : IDL.Func(
+      [IDL.Nat, IDL.Text, IDL.Text],
+      [IDL.Nat],
+      [],
+    ),
+  'updateProfile' : IDL.Func([IDL.Nat, IDL.Text, IDL.Text, IDL.Text], [], []),
+  'updateUserProfile' : IDL.Func(
+      [IDL.Nat, IDL.Text, IDL.Text, IDL.Text],
+      [],
+      [],
+    ),
 });
 
 export const idlInitArgs = [];
@@ -124,8 +152,11 @@ export const idlFactory = ({ IDL }) => {
   const SportCategory = IDL.Variant({
     'Basketball' : IDL.Null,
     'Tennis' : IDL.Null,
+    'Shooting' : IDL.Null,
     'Football' : IDL.Null,
     'Cricket' : IDL.Null,
+    'Badminton' : IDL.Null,
+    'Racing' : IDL.Null,
   });
   const ExternalBlob = IDL.Vec(IDL.Nat8);
   const UserRole = IDL.Variant({
@@ -141,10 +172,21 @@ export const idlFactory = ({ IDL }) => {
     'gameUrl' : IDL.Text,
     'category' : SportCategory,
   });
+  const Coins = IDL.Record({ 'irn' : IDL.Float64, 'usdt' : IDL.Float64 });
   const UserProfile = IDL.Record({
-    'principal' : IDL.Principal,
     'username' : IDL.Text,
+    'balance' : Coins,
+    'userId' : IDL.Nat,
+    'name' : IDL.Text,
+    'role' : IDL.Variant({ 'admin' : IDL.Null, 'user' : IDL.Null }),
     'email' : IDL.Text,
+  });
+  const WithdrawRequest = IDL.Record({
+    'status' : IDL.Variant({ 'pending' : IDL.Null, 'approved' : IDL.Null }),
+    'requestId' : IDL.Nat,
+    'userId' : IDL.Nat,
+    'upiId' : IDL.Text,
+    'amount' : IDL.Text,
   });
   const PlayerScore = IDL.Record({
     'username' : IDL.Text,
@@ -186,27 +228,41 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'addPlayerScore' : IDL.Func([IDL.Text, IDL.Nat, SportCategory], [], []),
+    'approveWithdrawRequest' : IDL.Func([IDL.Nat], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-    'deleteUser' : IDL.Func([IDL.Principal], [], []),
+    'deleteWithdrawRequest' : IDL.Func([IDL.Nat], [], []),
     'getAllGames' : IDL.Func([], [IDL.Vec(Game)], ['query']),
     'getAllUsers' : IDL.Func([], [IDL.Vec(UserProfile)], ['query']),
+    'getAllWithdrawRequests' : IDL.Func(
+        [],
+        [IDL.Vec(WithdrawRequest)],
+        ['query'],
+      ),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getGameById' : IDL.Func([IDL.Nat], [Game], ['query']),
-    'getMyProfile' : IDL.Func([], [UserProfile], ['query']),
+    'getMyProfile' : IDL.Func([IDL.Nat], [UserProfile], ['query']),
     'getTopScores' : IDL.Func([], [IDL.Vec(PlayerScore)], ['query']),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],
         ['query'],
       ),
-    'isAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'isAdminCaller' : IDL.Func([], [IDL.Bool], ['query']),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
-    'registerUser' : IDL.Func([IDL.Text, IDL.Text], [], []),
-    'resetUserData' : IDL.Func([IDL.Principal], [], []),
+    'registerUser' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
-    'updateProfile' : IDL.Func([IDL.Text, IDL.Text], [], []),
-    'updateUserProfile' : IDL.Func([IDL.Principal, IDL.Text, IDL.Text], [], []),
+    'submitWithdrawRequest' : IDL.Func(
+        [IDL.Nat, IDL.Text, IDL.Text],
+        [IDL.Nat],
+        [],
+      ),
+    'updateProfile' : IDL.Func([IDL.Nat, IDL.Text, IDL.Text, IDL.Text], [], []),
+    'updateUserProfile' : IDL.Func(
+        [IDL.Nat, IDL.Text, IDL.Text, IDL.Text],
+        [],
+        [],
+      ),
   });
 };
 

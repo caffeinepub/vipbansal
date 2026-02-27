@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
-import { Gamepad2, Trophy, Smartphone, Zap, Star, ChevronRight, Crown, Medal } from 'lucide-react';
+import { Gamepad2, Trophy, Smartphone, Zap, Star, ChevronRight, Crown, Medal, Users, Wifi, Award } from 'lucide-react';
 import { useGetAllGames, useGetTopScores } from '../hooks/useQueries';
 import GameCard from '../components/GameCard';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -33,7 +33,26 @@ const sports = [
     { emoji: '🏏', name: 'Cricket', color: 'from-emerald-900/60 to-emerald-800/30' },
     { emoji: '⚽', name: 'Football', color: 'from-blue-900/60 to-blue-800/30' },
     { emoji: '🏀', name: 'Basketball', color: 'from-orange-900/60 to-orange-800/30' },
-    { emoji: '🎾', name: 'Tennis', color: 'from-yellow-900/60 to-yellow-800/30' },
+    { emoji: '🏎️', name: 'Racing', color: 'from-red-900/60 to-red-800/30' },
+    { emoji: '🏸', name: 'Badminton', color: 'from-purple-900/60 to-purple-800/30' },
+    { emoji: '🎯', name: 'Shooting', color: 'from-yellow-900/60 to-yellow-800/30' },
+];
+
+const r2sSports = [
+    { emoji: '🏏', name: 'Cricket', desc: 'Hit sixes, bowl fast, and lead your team to victory.' },
+    { emoji: '⚽', name: 'Football', desc: 'Score goals, defend, and win championships.' },
+    { emoji: '🏀', name: 'Basketball', desc: 'Dunk, dribble, and dominate the court.' },
+    { emoji: '🏎️', name: 'Racing', desc: 'Speed through challenging tracks & unlock cool vehicles.' },
+    { emoji: '🏸', name: 'Badminton', desc: 'Smash and serve like a pro.' },
+    { emoji: '🎯', name: 'Shooting', desc: 'Test your aim and reflexes.' },
+];
+
+const r2sFeatures = [
+    { icon: Gamepad2, text: 'Multiple sports in a single app' },
+    { icon: Zap, text: 'Smooth controls & realistic physics' },
+    { icon: Wifi, text: 'Offline & online play' },
+    { icon: Award, text: 'Unlock achievements and rewards' },
+    { icon: Users, text: 'Compete with friends & global leaderboard' },
 ];
 
 const categoryEmoji: Record<string, string> = {
@@ -41,6 +60,9 @@ const categoryEmoji: Record<string, string> = {
     Football: '⚽',
     Basketball: '🏀',
     Tennis: '🎾',
+    Racing: '🏎️',
+    Badminton: '🏸',
+    Shooting: '🎯',
 };
 
 function FeaturedGamesSkeleton() {
@@ -102,7 +124,7 @@ export default function HomePage() {
                             <span className="text-gold">Khelo</span>
                         </p>
                         <p className="text-base md:text-lg text-muted-foreground mb-10 max-w-lg leading-relaxed">
-                            Discover the ultimate collection of online sports games. Cricket, Football, Basketball, Tennis — play them all and dominate the leaderboard!
+                            Discover the ultimate collection of online sports games. Cricket, Football, Basketball, Racing, Badminton, Shooting — play them all and dominate the leaderboard!
                         </p>
 
                         {/* CTA Buttons */}
@@ -174,6 +196,104 @@ export default function HomePage() {
                 </section>
             )}
 
+            {/* R2S Sports Champion Pro Section */}
+            <section className="py-16 bg-brand-surface/60 border-b border-border">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-5xl mx-auto">
+                        {/* Section Header */}
+                        <div className="text-center mb-10">
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-red/15 border border-brand-red/30 text-brand-red-bright text-sm font-heading font-semibold mb-4">
+                                <Trophy size={14} className="fill-current" />
+                                R2S Sports Champion Pro
+                            </div>
+                            <h2 className="font-brand text-3xl md:text-4xl font-black text-gold tracking-wide mb-3">
+                                The Ultimate Multi-Sports Experience
+                            </h2>
+                            <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+                                Step into the world of R2S Sports Champion Pro – the ultimate multi-sports gaming experience! 🎮
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                            {/* Sports List */}
+                            <div>
+                                <h3 className="font-heading font-bold text-lg text-foreground mb-5 flex items-center gap-2">
+                                    <span className="text-gold">Play Your Favorite Sports</span>
+                                    <span className="text-muted-foreground text-sm font-normal">— anytime, anywhere</span>
+                                </h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    {r2sSports.map((sport) => (
+                                        <div
+                                            key={sport.name}
+                                            className="flex items-start gap-3 p-4 rounded-xl bg-background/60 border border-border hover:border-gold/40 hover:bg-gold/5 transition-all duration-200 group"
+                                        >
+                                            <span className="text-3xl shrink-0 group-hover:scale-110 transition-transform duration-200">
+                                                {sport.emoji}
+                                            </span>
+                                            <div>
+                                                <p className="font-heading font-bold text-foreground group-hover:text-gold transition-colors text-sm">
+                                                    {sport.name}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground leading-relaxed mt-0.5">
+                                                    {sport.desc}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Features List */}
+                            <div>
+                                <h3 className="font-heading font-bold text-lg text-gold mb-5">
+                                    ✅ Key Features
+                                </h3>
+                                <ul className="space-y-3 mb-8">
+                                    {r2sFeatures.map((feat) => {
+                                        const Icon = feat.icon;
+                                        return (
+                                            <li
+                                                key={feat.text}
+                                                className="flex items-center gap-3 p-3 rounded-lg bg-background/60 border border-border"
+                                            >
+                                                <div className="w-8 h-8 rounded-lg bg-gold/15 border border-gold/30 flex items-center justify-center shrink-0">
+                                                    <Icon size={16} className="text-gold" />
+                                                </div>
+                                                <span className="text-sm text-foreground font-heading font-medium">
+                                                    {feat.text}
+                                                </span>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+
+                                {/* CTA */}
+                                <div className="relative rounded-xl overflow-hidden border border-gold/30 bg-gradient-to-br from-brand-dark to-brand-surface p-6 text-center">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-transparent to-brand-red/5" />
+                                    <div className="relative">
+                                        <p className="font-heading font-bold text-foreground mb-1 text-base">
+                                            Join the community of sports champions!
+                                        </p>
+                                        <p className="text-muted-foreground text-sm mb-4">
+                                            Experience the thrill of victory 🏆
+                                        </p>
+                                        <Link to="/games">
+                                            <Button
+                                                size="sm"
+                                                className="bg-gold text-brand-dark font-heading font-bold tracking-wide hover:bg-gold-light glow-gold transition-all duration-200"
+                                            >
+                                                <Gamepad2 size={16} className="mr-2" />
+                                                Play Now
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Featured Games Section */}
             <section className="py-14 relative overflow-hidden">
                 {/* Background banner */}
@@ -239,14 +359,14 @@ export default function HomePage() {
                         </h2>
                         <p className="text-muted-foreground">Choose your favorite sport and start playing</p>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                         {sports.map((sport) => (
                             <Link key={sport.name} to="/games">
                                 <div
                                     className={`group relative rounded-xl p-6 bg-gradient-to-br ${sport.color} border border-border hover:border-gold/40 transition-all duration-200 cursor-pointer text-center card-hover`}
                                 >
-                                    <div className="text-5xl mb-3">{sport.emoji}</div>
-                                    <p className="font-heading font-bold text-lg text-foreground group-hover:text-gold transition-colors">
+                                    <div className="text-4xl mb-3">{sport.emoji}</div>
+                                    <p className="font-heading font-bold text-base text-foreground group-hover:text-gold transition-colors">
                                         {sport.name}
                                     </p>
                                 </div>

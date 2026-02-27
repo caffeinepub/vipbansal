@@ -27,40 +27,67 @@ export interface PlayerScore {
     score: bigint;
     category: SportCategory;
 }
+export interface WithdrawRequest {
+    status: Variant_pending_approved;
+    requestId: bigint;
+    userId: bigint;
+    upiId: string;
+    amount: string;
+}
+export interface Coins {
+    irn: number;
+    usdt: number;
+}
 export interface UserProfile {
-    principal: Principal;
     username: string;
+    balance: Coins;
+    userId: bigint;
+    name: string;
+    role: Variant_admin_user;
     email: string;
 }
 export enum SportCategory {
     Basketball = "Basketball",
     Tennis = "Tennis",
+    Shooting = "Shooting",
     Football = "Football",
-    Cricket = "Cricket"
+    Cricket = "Cricket",
+    Badminton = "Badminton",
+    Racing = "Racing"
 }
 export enum UserRole {
     admin = "admin",
     user = "user",
     guest = "guest"
 }
+export enum Variant_admin_user {
+    admin = "admin",
+    user = "user"
+}
+export enum Variant_pending_approved {
+    pending = "pending",
+    approved = "approved"
+}
 export interface backendInterface {
     addGame(name: string, category: SportCategory, thumbnail: ExternalBlob, description: string, gameUrl: string): Promise<void>;
     addPlayerScore(username: string, score: bigint, category: SportCategory): Promise<void>;
+    approveWithdrawRequest(requestId: bigint): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
-    deleteUser(user: Principal): Promise<void>;
+    deleteWithdrawRequest(requestId: bigint): Promise<void>;
     getAllGames(): Promise<Array<Game>>;
     getAllUsers(): Promise<Array<UserProfile>>;
+    getAllWithdrawRequests(): Promise<Array<WithdrawRequest>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getGameById(id: bigint): Promise<Game>;
-    getMyProfile(): Promise<UserProfile>;
+    getMyProfile(userId: bigint): Promise<UserProfile>;
     getTopScores(): Promise<Array<PlayerScore>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
-    isAdmin(): Promise<boolean>;
+    isAdminCaller(): Promise<boolean>;
     isCallerAdmin(): Promise<boolean>;
-    registerUser(username: string, email: string): Promise<void>;
-    resetUserData(user: Principal): Promise<void>;
+    registerUser(name: string, username: string, email: string): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
-    updateProfile(newUsername: string, newEmail: string): Promise<void>;
-    updateUserProfile(user: Principal, newUsername: string, newEmail: string): Promise<void>;
+    submitWithdrawRequest(userId: bigint, amount: string, upiId: string): Promise<bigint>;
+    updateProfile(userId: bigint, newName: string, newUsername: string, newEmail: string): Promise<void>;
+    updateUserProfile(userId: bigint, newName: string, newUsername: string, newEmail: string): Promise<void>;
 }

@@ -10,6 +10,7 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
+export interface Coins { 'irn' : number, 'usdt' : number }
 export type ExternalBlob = Uint8Array;
 export interface Game {
   'id' : bigint,
@@ -26,16 +27,31 @@ export interface PlayerScore {
 }
 export type SportCategory = { 'Basketball' : null } |
   { 'Tennis' : null } |
+  { 'Shooting' : null } |
   { 'Football' : null } |
-  { 'Cricket' : null };
+  { 'Cricket' : null } |
+  { 'Badminton' : null } |
+  { 'Racing' : null };
 export interface UserProfile {
-  'principal' : Principal,
   'username' : string,
+  'balance' : Coins,
+  'userId' : bigint,
+  'name' : string,
+  'role' : { 'admin' : null } |
+    { 'user' : null },
   'email' : string,
 }
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
   { 'guest' : null };
+export interface WithdrawRequest {
+  'status' : { 'pending' : null } |
+    { 'approved' : null },
+  'requestId' : bigint,
+  'userId' : bigint,
+  'upiId' : string,
+  'amount' : string,
+}
 export interface _CaffeineStorageCreateCertificateResult {
   'method' : string,
   'blob_hash' : string,
@@ -69,23 +85,28 @@ export interface _SERVICE {
     undefined
   >,
   'addPlayerScore' : ActorMethod<[string, bigint, SportCategory], undefined>,
+  'approveWithdrawRequest' : ActorMethod<[bigint], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
-  'deleteUser' : ActorMethod<[Principal], undefined>,
+  'deleteWithdrawRequest' : ActorMethod<[bigint], undefined>,
   'getAllGames' : ActorMethod<[], Array<Game>>,
   'getAllUsers' : ActorMethod<[], Array<UserProfile>>,
+  'getAllWithdrawRequests' : ActorMethod<[], Array<WithdrawRequest>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getGameById' : ActorMethod<[bigint], Game>,
-  'getMyProfile' : ActorMethod<[], UserProfile>,
+  'getMyProfile' : ActorMethod<[bigint], UserProfile>,
   'getTopScores' : ActorMethod<[], Array<PlayerScore>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
-  'isAdmin' : ActorMethod<[], boolean>,
+  'isAdminCaller' : ActorMethod<[], boolean>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
-  'registerUser' : ActorMethod<[string, string], undefined>,
-  'resetUserData' : ActorMethod<[Principal], undefined>,
+  'registerUser' : ActorMethod<[string, string, string], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
-  'updateProfile' : ActorMethod<[string, string], undefined>,
-  'updateUserProfile' : ActorMethod<[Principal, string, string], undefined>,
+  'submitWithdrawRequest' : ActorMethod<[bigint, string, string], bigint>,
+  'updateProfile' : ActorMethod<[bigint, string, string, string], undefined>,
+  'updateUserProfile' : ActorMethod<
+    [bigint, string, string, string],
+    undefined
+  >,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

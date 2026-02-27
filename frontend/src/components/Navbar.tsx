@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from '@tanstack/react-router';
-import { Menu, X, Trophy, Gamepad2, Home, LogIn, UserPlus, LogOut, User, Shield } from 'lucide-react';
+import { Menu, X, Trophy, Gamepad2, Home, LogIn, UserPlus, LogOut, User, Shield, Smartphone, Swords, Dices } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useQueryClient } from '@tanstack/react-query';
@@ -10,6 +10,8 @@ const navLinks = [
     { to: '/', label: 'Home', icon: Home },
     { to: '/games', label: 'Games', icon: Gamepad2 },
     { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },
+    { to: '/r2s-game', label: 'R2S Game', icon: Swords },
+    { to: '/mini-cricket', label: 'Mini Cricket', icon: Dices },
 ];
 
 export default function Navbar() {
@@ -117,6 +119,17 @@ export default function Navbar() {
                                         Login
                                     </Link>
                                     <Link
+                                        to="/otp-login"
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-md font-heading font-semibold text-sm tracking-wide transition-all duration-200 ${
+                                            isActive('/otp-login')
+                                                ? 'bg-gold/15 text-gold border border-gold/30'
+                                                : 'text-foreground/70 hover:text-gold hover:bg-gold/10'
+                                        }`}
+                                    >
+                                        <Smartphone size={16} />
+                                        OTP Login
+                                    </Link>
+                                    <Link
                                         to="/signup"
                                         className="flex items-center gap-2 px-4 py-2 rounded-md font-heading font-semibold text-sm tracking-wide bg-gold text-brand-dark hover:bg-gold-light transition-all duration-200"
                                     >
@@ -206,6 +219,18 @@ export default function Navbar() {
                                     >
                                         <LogIn size={18} />
                                         Login
+                                    </Link>
+                                    <Link
+                                        to="/otp-login"
+                                        onClick={() => setMobileOpen(false)}
+                                        className={`flex items-center gap-3 px-4 py-3 rounded-md font-heading font-semibold text-base tracking-wide transition-all duration-200 ${
+                                            isActive('/otp-login')
+                                                ? 'bg-gold/15 text-gold border border-gold/30'
+                                                : 'text-foreground/70 hover:text-gold hover:bg-gold/10'
+                                        }`}
+                                    >
+                                        <Smartphone size={18} />
+                                        OTP Login
                                     </Link>
                                     <Link
                                         to="/signup"

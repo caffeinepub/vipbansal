@@ -1,57 +1,34 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-27T17:50:59.351Z",
-  "summary": "The diff implements the majority of the requested requirements (REQ-13 through REQ-17). REQ-17 backend changes are present (gameUrl field, migration, addGame), REQ-14 category filter bar is implemented, REQ-15 leaderboard with refresh button and score submission form is implemented, REQ-16 UI polish (hover effects, featured games, top player ticker, page transitions, loading progress bar) is implemented. However, several specific acceptance criteria have gaps: the backend seeding of at least 2 games per sport category is not evidenced in the diff, and the migration only sets gameUrl to empty string rather than a meaningful default placeholder URL.",
+  "generatedAt": "2026-02-27T21:10:03.976Z",
+  "summary": "The diff implements all five requirements (REQ-39 through REQ-43) with good coverage. Backend adds Racing, Badminton, and Shooting categories with pre-populated game entries. Frontend adds filter buttons, updates the homepage hero, creates a TermsPage, registers the /terms route, and adds a Terms & Conditions footer link. One minor concern: the build request requires three specific generated images for the new sport category icons, which are not mentioned anywhere in the diff.",
   "missing_requirements": [
     {
-      "id": "REQ-13",
-      "requirement": "Pre-populate the backend with at least 2 real sports game entries per category (Cricket, Football, Basketball, Tennis) with valid, real game URLs pointing to popular free online sports games.",
-      "reason": "The diff shows the backend model updated with gameUrl and migration logic, but no seeding or initialization code populating at least 2 games per sport category with real URLs is visible in the truncated backend/main.mo or any other file.",
-      "evidence": [
-        "backend/main.mo",
-        "backend/migration.mo"
-      ]
-    },
-    {
-      "id": "REQ-17",
-      "requirement": "Existing games without a URL are given a default placeholder URL rather than breaking.",
-      "reason": "The migration sets gameUrl to an empty string for existing games rather than a meaningful default placeholder URL as described in the acceptance criteria.",
-      "evidence": [
-        "backend/migration.mo"
-      ]
+      "requirement": "Racing sport category icon illustration (racing-category-icon.dim_256x256.png), Badminton sport category icon illustration (badminton-category-icon.dim_256x256.png), and Shooting sport category icon illustration (shooting-category-icon.dim_256x256.png) must be generated as image assets",
+      "reason": "The build request explicitly lists three required images. None of these image files appear anywhere in the diff summary — no files were added under assets/generated or any other path for these icons.",
+      "evidence": []
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Admin page with admin-specific hooks (useIsCallerAdmin, useGetAllUsers, useUpdateUserProfile, useDeleteUser, useResetUserData) and admin navigation link in Navbar",
-      "reason": "The build request does not mention any admin page, admin hooks, or admin navigation link. These appear to be additional features not requested in REQ-13 through REQ-17.",
+      "description": "A backend/migration.mo module was added to handle schema migration from OldSportCategory to NewSportCategory with full data conversion logic for games and player scores.",
+      "reason": "The build request does not mention any migration module or migration strategy. The requirement only asks to update backend category validation/enums and pre-populate game entries in the single backend/main.mo actor file. Creating a separate migration.mo file was not requested.",
       "evidence": [
-        "frontend-file-summaries.txt",
-        "frontend/src/components/Navbar.tsx"
-      ]
-    },
-    {
-      "description": "AccessDeniedScreen component with animated ping effect",
-      "reason": "No requirement in the build request mentions an access denied screen component.",
-      "evidence": [
-        "frontend-file-summaries.txt",
-        "frontend/src/components/AccessDeniedScreen.tsx"
+        "backend/migration.mo"
       ]
     }
   ],
-  "confidence": 0.72,
+  "confidence": 0.82,
   "changed_files": [
     "backend/main.mo",
     "backend/migration.mo",
     "frontend-file-summaries.txt",
     "frontend/src/App.tsx",
-    "frontend/src/components/GameCard.tsx",
-    "frontend/src/components/ScoreSubmissionForm.tsx",
-    "frontend/src/index.css",
+    "frontend/src/components/Footer.tsx",
     "frontend/src/pages/GamesPage.tsx",
     "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/LeaderboardPage.tsx",
+    "frontend/src/pages/TermsPage.tsx",
     "project_state.json"
   ]
 }

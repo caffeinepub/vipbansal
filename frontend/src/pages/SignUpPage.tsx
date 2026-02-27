@@ -13,6 +13,7 @@ export default function SignUpPage() {
     const { data: userProfile, isFetched } = useGetCallerUserProfile();
     const registerUser = useRegisterUser();
 
+    const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [formError, setFormError] = useState('');
@@ -42,6 +43,10 @@ export default function SignUpPage() {
         e.preventDefault();
         setFormError('');
 
+        if (!name.trim()) {
+            setFormError('Name zaroori hai');
+            return;
+        }
         if (!username.trim()) {
             setFormError('Username zaroori hai');
             return;
@@ -56,14 +61,18 @@ export default function SignUpPage() {
         }
 
         try {
-            await registerUser.mutateAsync({ username: username.trim(), email: email.trim() });
+            await registerUser.mutateAsync({
+                name: name.trim(),
+                username: username.trim(),
+                email: email.trim(),
+            });
         } catch (error: unknown) {
             const err = error as Error;
             const msg = err?.message ?? '';
             if (msg.includes('already registered')) {
                 setFormError('Yeh account pehle se registered hai. Login karein.');
             } else if (msg.includes('empty')) {
-                setFormError('Username aur email empty nahi ho sakte.');
+                setFormError('Name, username aur email empty nahi ho sakte.');
             } else {
                 setFormError('Registration fail hui. Dobara try karein.');
             }
@@ -147,6 +156,23 @@ export default function SignUpPage() {
                                 <span className="text-green-400 text-xs font-heading font-semibold">
                                     Internet Identity connected ✓
                                 </span>
+                            </div>
+
+                            {/* Full Name */}
+                            <div className="space-y-2">
+                                <Label htmlFor="name" className="text-foreground/80 font-heading font-semibold text-sm">
+                                    Full Name
+                                </Label>
+                                <Input
+                                    id="name"
+                                    type="text"
+                                    placeholder="Apna poora naam daalen"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    disabled={registerUser.isPending}
+                                    className="bg-background/50 border-gold/20 focus:border-gold/50 text-foreground placeholder:text-foreground/30 rounded-xl h-11"
+                                    maxLength={60}
+                                />
                             </div>
 
                             {/* Username */}

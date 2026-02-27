@@ -150,6 +150,11 @@
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
     }
+
+    /* Cricket ball horizontal movement animation */
+    .cricket-ball {
+        animation: ballMovement 3s ease-in-out infinite alternate;
+    }
 }
 
 @keyframes pageEnter {
@@ -182,6 +187,18 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Cricket ball movement keyframe */
+@keyframes ballMovement {
+    0% {
+        left: 8%;
+        transform: translateY(-50%) rotate(0deg);
+    }
+    100% {
+        left: 78%;
+        transform: translateY(-50%) rotate(360deg);
     }
 }
 

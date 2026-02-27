@@ -53,7 +53,7 @@ export default function Footer() {
                             Sports
                         </h4>
                         <ul className="space-y-2">
-                            {['🏏 Cricket', '⚽ Football', '🏀 Basketball', '🎾 Tennis'].map((sport) => (
+                            {['🏏 Cricket', '⚽ Football', '🏀 Basketball', '🏎️ Racing', '🏸 Badminton', '🎯 Shooting'].map((sport) => (
                                 <li key={sport}>
                                     <Link
                                         to="/games"
@@ -65,6 +65,25 @@ export default function Footer() {
                             ))}
                         </ul>
                     </div>
+                </div>
+
+                {/* Legal Links */}
+                <div className="border-t border-border/50 pt-4 pb-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                    <a
+                        href="/privacypolicy.htm"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-gold transition-colors"
+                    >
+                        Privacy Policy
+                    </a>
+                    <span className="text-border">|</span>
+                    <Link
+                        to="/terms"
+                        className="hover:text-gold transition-colors"
+                    >
+                        Terms & Conditions
+                    </Link>
                 </div>
 
                 {/* Bottom bar */}

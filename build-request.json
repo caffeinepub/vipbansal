@@ -1,126 +1,132 @@
 {
   "kind": "build_request",
-  "title": "Activate Full Online Gaming Experience — Real Game URLs, Category Filters, Live Leaderboard & Polished UI",
-  "projectName": "VIPbansal Sports Gaming",
+  "title": "Add Terms & Conditions page, update Homepage hero with R2S app description, and add new sport categories (Racing, Badminton, Shooting)",
+  "projectName": "R2S Sports Champion Pro",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-13",
-      "text": "Update all game cards in the backend and Games page so that each game has a real, working external game URL. The 'Play Now' button on each GameCard must open the game's URL in a new browser tab (target='_blank'). Pre-populate the backend with real sports game entries (Cricket, Football, Basketball, Tennis) that include valid game URLs pointing to popular free online sports games (e.g., cricketgames.io, miniclip.com football games, etc.).",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Each game card displays a working 'Play Now' button",
-        "Clicking 'Play Now' opens the game URL in a new browser tab",
-        "Backend game entries include a gameUrl field populated with real, accessible online game URLs",
-        "At least 2 games per sport category (Cricket, Football, Basketball, Tennis) are seeded in the backend"
-      ]
-    },
-    {
-      "id": "REQ-14",
-      "text": "Add a sport category filter bar to the Games page (/games). Display filter buttons for All, Cricket, Football, Basketball, and Tennis. Clicking a category button filters the displayed game cards to only show games of that category. The active filter button should be visually highlighted using the existing gold/red brand colors.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A row of filter buttons appears above the games grid: All, Cricket, Football, Basketball, Tennis",
-        "Clicking a category filters the game cards to show only that sport",
-        "Clicking 'All' shows all games",
-        "The active filter button is visually distinguished with gold/red highlight",
-        "Filter works reactively without a page reload"
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "text": "Make the Leaderboard page fully live and interactive. Ensure the score submission form is prominently visible, functional, and allows any user (authenticated or guest) to submit a score with a username, score value, and sport category. The leaderboard table must auto-refresh after a score is submitted to show the latest rankings. Add a 'Refresh' button to manually reload the leaderboard.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Score submission form is visible on the Leaderboard page",
-        "Submitting a score updates the leaderboard table immediately after success",
-        "A 'Refresh' button allows manual reload of the leaderboard data",
-        "Top 10 players are shown with rank, username, sport category, and score",
-        "Success and error messages are shown after form submission"
-      ]
-    },
-    {
-      "id": "REQ-16",
-      "text": "Polish the overall UI to feel like a real, professional online gaming platform. Apply the following enhancements: (1) Add animated hover effects on game cards (scale up, glow border in gold/red); (2) Add a 'Featured Games' horizontal scroll section on the Home page showcasing 4–6 highlighted games fetched from the backend; (3) Add a live 'Top Player' badge or ticker on the Home page showing the current leaderboard #1 player; (4) Add smooth page transition animations between routes; (5) Add a loading progress bar at the top of the page while data is being fetched.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Game cards animate on hover (scale + glow effect)",
-        "Home page has a 'Featured Games' horizontal scroll section with real game data",
-        "Home page shows a 'Top Player' banner or ticker with the current #1 leaderboard entry",
-        "Route transitions have a smooth fade or slide animation",
-        "A thin top progress bar appears during data loading states"
-      ]
-    },
-    {
-      "id": "REQ-17",
-      "text": "Update the backend game data model to include a gameUrl field (Text) for each game entry. Update the addGame and all related backend functions to accept and store this field. Ensure getGames returns the gameUrl in the response so the frontend can use it for the Play Now button.",
+      "id": "REQ-39",
+      "text": "Add Racing, Badminton, and Shooting as new sport categories to the backend game data. Pre-populate the backend with at least 2 game entries per new category (Racing, Badminton, Shooting), each with a name, sport category, short description, thumbnail image URL, and a working external game URL. Update any backend category validation or enums to include these three new categories.",
       "target": "backend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-3"
         ],
         "quotes": [
-          "Jitni setting hai sari activate kariye bilkul real Ki Tarah online game Inki Tarah"
+          "🏎️ Racing – Speed through challenging tracks & unlock cool vehicles.",
+          "🏸 Badminton – Smash and serve like a pro.",
+          "🎯 Shooting – Test your aim and reflexes."
         ]
       },
       "acceptanceCriteria": [
-        "Game data type includes a gameUrl : Text field",
-        "addGame endpoint accepts gameUrl as a parameter",
-        "getGames returns gameUrl for each game",
-        "Existing games without a URL are given a default placeholder URL rather than breaking"
+        "Backend stores game entries for Racing, Badminton, and Shooting categories",
+        "At least 2 game entries exist per new category",
+        "Each entry includes name, category, description, thumbnailUrl, and gameUrl fields",
+        "getGames endpoint returns all new entries including the new categories"
+      ]
+    },
+    {
+      "id": "REQ-40",
+      "text": "Update the Games page (/games) category filter bar to include filter buttons for Racing, Badminton, and Shooting alongside the existing All, Cricket, Football, Basketball, and Tennis filters. Game cards for these new categories must render correctly using the existing GameCard component.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "🏎️ Racing – Speed through challenging tracks & unlock cool vehicles.",
+          "🏸 Badminton – Smash and serve like a pro.",
+          "🎯 Shooting – Test your aim and reflexes."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Filter bar shows buttons for Racing, Badminton, and Shooting",
+        "Clicking a new category button filters game cards to that category only",
+        "Active filter button is highlighted with existing gold/red brand colors",
+        "Game cards for new categories display correctly with the GameCard component"
+      ]
+    },
+    {
+      "id": "REQ-41",
+      "text": "Update the homepage hero/about section in frontend/src/pages/HomePage.tsx to include the R2S Sports Champion Pro app description. The section must highlight: six sports (Cricket, Football, Basketball, Racing, Badminton, Shooting) each with their emoji, smooth controls & realistic physics, offline & online play, unlock achievements and rewards, and compete with friends & global leaderboard. Use the existing dark red/gold VIPbansal theme and bold typography.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "Step into the world of R2S Sports Champion Pro – the ultimate multi-sports gaming experience!",
+          "Play your favorite sports anytime, anywhere",
+          "Multiple sports in a single app",
+          "Smooth controls & realistic physics",
+          "Offline & online play",
+          "Unlock achievements and rewards",
+          "Compete with friends & global leaderboard"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Homepage hero or about section displays the R2S Sports Champion Pro tagline",
+        "All six sports are listed with their respective emojis (🏏 Cricket, ⚽ Football, 🏀 Basketball, 🏎️ Racing, 🏸 Badminton, 🎯 Shooting)",
+        "Feature highlights are visible: smooth controls, offline & online play, achievements, global leaderboard",
+        "Styling is consistent with the existing dark red/gold VIPbansal theme"
+      ]
+    },
+    {
+      "id": "REQ-42",
+      "text": "Create a Terms & Conditions page at route /terms in the React frontend. The page must display T&C content relevant to R2S Sports Champion Pro, structured with sections covering: (1) Acceptance of Terms; (2) Use of the App (permitted and prohibited uses); (3) User Accounts and Registration; (4) In-App Coins and Rewards (virtual currency, no real monetary value unless stated); (5) Leaderboard and Fair Play; (6) Intellectual Property; (7) Disclaimer of Warranties; (8) Limitation of Liability; (9) Changes to Terms; (10) Contact Us (email: mjkjbansal@gmail.com); (11) 'Last Updated: 2026' footer note. Style the page consistently with the existing dark red/gold VIPbansal theme (dark background, gold/red section headings, bold typography, Tailwind utility classes).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "Read our Terms & Conditions here: [Terms & Conditions](terms.htm)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Page is accessible at route /terms",
+        "All 11 sections are present and readable",
+        "Contact email mjkjbansal@gmail.com is displayed in the Contact Us section",
+        "'Last Updated: 2026' appears as a footer note on the page",
+        "Page styling matches the dark red/gold VIPbansal theme"
+      ]
+    },
+    {
+      "id": "REQ-43",
+      "text": "Add a 'Terms & Conditions' link to the Footer component (frontend/src/components/Footer.tsx) that navigates to the /terms route, placed alongside the existing Privacy Policy link. Register the /terms route in the TanStack Router configuration in frontend/src/App.tsx.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "Read our Terms & Conditions here: [Terms & Conditions](terms.htm)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Footer displays a 'Terms & Conditions' link next to the Privacy Policy link",
+        "Clicking the link navigates to /terms",
+        "/terms route is registered in the TanStack Router configuration in App.tsx",
+        "The TermsPage component is rendered at /terms"
       ]
     }
   ],
   "constraints": [
-    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
-    "All external game URLs must open in a new tab (target='_blank' with rel='noopener noreferrer')",
-    "Maintain the existing dark red/gold/black brand theme throughout all UI changes"
+    "Do not modify any files listed in frontend.immutablePaths",
+    "All Motoko logic must remain in the single backend/main.mo actor file",
+    "Use only the existing dark red/gold VIPbansal theme and Tailwind utility classes for all new UI"
   ],
   "nonGoals": [
-    "Building or embedding actual game engines or game logic inside the app",
-    "Android APK or native mobile app development",
-    "Integrating third-party payment or real-money gaming features",
-    "Adding new authentication methods beyond Internet Identity"
+    "Real-time live sports data or external API integrations",
+    "Actual SMS or email delivery for OTP or notifications",
+    "Real monetary transactions or payment gateway integration",
+    "Backend persistence for Terms & Conditions content"
   ],
   "imageRequirements": {
     "required": [
-      "Cricket sports game card thumbnail with dark stadium background and cricket ball (cricket-thumb.dim_400x250.png)",
-      "Football sports game card thumbnail with green field and football (football-thumb.dim_400x250.png)",
-      "Basketball sports game card thumbnail with court background and basketball (basketball-thumb.dim_400x250.png)",
-      "Tennis sports game card thumbnail with clay court background and tennis ball (tennis-thumb.dim_400x250.png)",
-      "Wide hero banner for Featured Games section with dark gaming aesthetic, gold accents, and multiple sport icons (featured-games-banner.dim_1200x300.png)"
+      "Racing sport category icon illustration with a red racing car on dark background (racing-category-icon.dim_256x256.png)",
+      "Badminton sport category icon illustration with a shuttlecock and racket on dark background (badminton-category-icon.dim_256x256.png)",
+      "Shooting sport category icon illustration with a target and crosshair on dark background (shooting-category-icon.dim_256x256.png)"
     ],
     "edits": []
   }
